@@ -20,6 +20,6 @@ Readme and markdown are easy ways to communicate with what's new in the project.
 
 ## Releases
 
-Please find more infos about every releases in the [following file] (./markdown/releases.md)
+Please find more infos about every releases in the [following file](markdown/releases.md)
 
 
