@@ -1,5 +1,5 @@
-import 'package:barty/pages/main/MainHomePage.dart';
-import 'package:barty/style/style.dart';
+import 'package:barty/ui/pages/main/MainHomePage.dart';
+import 'package:barty/ui/style/style.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());

@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:barty/components/alert/NotYetImplementedSnackbar.dart';
+import 'package:barty/ui/components/alert/NotYetImplementedSnackbar.dart';
 import 'package:gradient_app_bar/gradient_app_bar.dart';
-import 'package:barty/style/style.dart';
+import 'package:barty/ui/style/style.dart';
 
 class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
 

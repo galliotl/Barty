@@ -16,7 +16,7 @@ class _BartyBottomNavState extends State<BartyBottomNav> {
   int _selectedIndex = 0;
 
   _BartyBottomNavState(this.onItemSelectedChange);
-  
+
   void _onItemTapped(int index, BuildContext context) {
     setState(() {
       _selectedIndex = index;
