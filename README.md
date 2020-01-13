@@ -6,7 +6,7 @@ bar app
 
 ### Language
 
-Please write comments in english as you never know who might one day participate in the project. Most of the languages funcions are already written in english anyway... Let's make one small effort. It helps code cleanness avoiding Fren-glish bullshit everywhere.
+Please write comments in english as you never know who might one day participate in the project. Most of the languages funcions are already written in english anyway... Let's make one small effort. It helps code cleanness avoiding Fren-glish.
 
 ### Clean code
 

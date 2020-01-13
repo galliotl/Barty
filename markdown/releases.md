@@ -11,3 +11,5 @@ In this first release, we created the app's skeleton. This includes :
 - One empty page per item in the BottomAppBar
 - A component
 - the basic project structure (ui - model) to which we'll later add services and others
+
+![i](images/skeleton-screen-1.png "DiscoverScreen in our skeleton")
