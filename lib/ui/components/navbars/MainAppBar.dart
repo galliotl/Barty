@@ -103,6 +103,7 @@ class _MainAppBarState extends State<MainAppBar> with SingleTickerProviderStateM
         icon: const Icon(Icons.account_circle),
         onPressed: () {
           Scaffold.of(context).showSnackBar(NotYetImplementedSnackbar(context: context));
+          Navigator.pushNamed(context, '/account');
         },
       )
     ];
@@ -118,7 +119,7 @@ class _MainAppBarState extends State<MainAppBar> with SingleTickerProviderStateM
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: horizontalTitleAlignment,
-          children: <Widget>[
+          children: [
             const Text('Barty'),
           ],
         ),

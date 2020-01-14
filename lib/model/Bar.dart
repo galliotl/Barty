@@ -8,13 +8,14 @@ class Bar {
   String openingHours;
   Float rating;
 
-  Bar(
-      {this.name,
-      this.address,
-      this.imagePath,
-      this.openingHours,
-      this.rating,
-      this.type});
+  Bar({
+    this.name,
+    this.address,
+    this.imagePath,
+    this.openingHours,
+    this.rating,
+    this.type,
+  });
 
   static List<Bar> generateRandomBars(int numberOfBars) {
     List<Bar> bars = [];

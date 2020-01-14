@@ -9,66 +9,61 @@ const Color lightGrey = Color.fromRGBO(236, 236, 236, 1);
 const Color white = Colors.white;
 
 LinearGradient gradient = LinearGradient(
-          // Where the linear gradient begins and ends
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          // Add one stop for each color. Stops should increase from 0 to 1
-          stops: [0.1, 0.9],
-          colors: [
-            deepBlue,
-            lightBlue
-          ],
-        );
+  // Where the linear gradient begins and ends
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+  // Add one stop for each color. Stops should increase from 0 to 1
+  stops: [0.1, 0.9],
+  colors: [deepBlue, lightBlue],
+);
 
 ThemeData commonBetweenLightAndDark = ThemeData(
-    primaryColor: deepBlue,
-    accentColor: green,
-        
-    iconTheme: IconThemeData(
-      color: white
+  primaryColor: deepBlue,
+  accentColor: green,
+  iconTheme: IconThemeData(color: white),
+  bottomAppBarTheme: BottomAppBarTheme(
+    elevation: 0,
+  ),
+  textTheme: TextTheme(
+    body1: TextStyle(
+      fontFamily: 'Nunito',
+      fontSize: 17,
+      color: white,
+      fontWeight: FontWeight.w600
     ),
-    
-    bottomAppBarTheme: BottomAppBarTheme(
-      elevation: 0,
+    body2: TextStyle(
+      fontFamily: 'Nunito',
+      fontSize: 15,
     ),
-
-    textTheme: TextTheme(
-      body1: TextStyle(fontFamily: 'Nunito', fontSize: 15),
-      body2: TextStyle(fontFamily: 'Nunito', fontSize: 15),
-      subtitle: TextStyle(
-        fontFamily: 'Nunito',
-        fontWeight: FontWeight.bold,
-        fontSize: 20,
-      ),
-      title: TextStyle(
-        fontFamily: 'Nunito',
-        fontWeight: FontWeight.bold,
-        fontSize: 30,
-      ),
+    subtitle: TextStyle(
+      fontFamily: 'Nunito',
+      fontWeight: FontWeight.bold,
+      fontSize: 20,
     ),
-
-  );
+    title: TextStyle(
+      fontFamily: 'Nunito',
+      fontWeight: FontWeight.bold,
+      fontSize: 30,
+    ),
+  ),
+);
 
 ThemeData darkTheme = commonBetweenLightAndDark.copyWith(
-      
-      canvasColor: deepBlack,
-      scaffoldBackgroundColor: deepBlack,
-      bottomAppBarColor: deepBlack,
-      
-      textTheme: TextTheme(
-        body1: TextStyle(
-          color: lightBlack,
-        ),
-        body2: TextStyle(
-          color: Colors.white,
-        ),
-        subtitle: TextStyle(color: lightBlue),
-        title: TextStyle(color: Colors.white),
-      )
-);
+    canvasColor: deepBlack,
+    scaffoldBackgroundColor: deepBlack,
+    bottomAppBarColor: deepBlack,
+    textTheme: TextTheme(
+      body1: TextStyle(
+        color: lightBlack,
+      ),
+      body2: TextStyle(
+        color: Colors.white,
+      ),
+      subtitle: TextStyle(color: lightBlue),
+      title: TextStyle(color: Colors.white),
+    ));
 
 ThemeData lightTheme = commonBetweenLightAndDark.copyWith(
-  canvasColor: white,
-  bottomAppBarColor: white,
-  scaffoldBackgroundColor: white
-);
+    canvasColor: white,
+    bottomAppBarColor: white,
+    scaffoldBackgroundColor: white);
