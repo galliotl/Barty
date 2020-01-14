@@ -1,9 +1,9 @@
-import 'package:barty/ui/components/MainAppBar.dart';
+import 'package:barty/ui/components/navbars/MainAppBar.dart';
 import 'package:barty/ui/pages/bars/BarsPage.dart';
 import 'package:barty/ui/pages/discover/DiscoverPage.dart';
 import 'package:barty/ui/pages/drinks/DrinksPage.dart';
 import 'package:flutter/material.dart';
-import 'package:barty/ui/components/BartyBottomNav.dart';
+import 'package:barty/ui/components/navbars/BartyBottomNav.dart';
 
 class MainHomePage extends StatefulWidget {
   MainHomePage({Key key}) : super(key: key);
@@ -13,13 +13,12 @@ class MainHomePage extends StatefulWidget {
 }
 
 class _MainHomePageState extends State<MainHomePage> {
-
   int _selectedPageIndex = 0;
 
   List<Widget> pages = [
-          DiscoverPage(),
-          BarsPage(),
-          DrinksPage(),
+    DiscoverPage(),
+    BarsPage(),
+    DrinksPage(),
   ];
 
   void onPageSelected(int index) {
@@ -33,7 +32,9 @@ class _MainHomePageState extends State<MainHomePage> {
     return Scaffold(
       appBar: MainAppBar(),
       body: pages[_selectedPageIndex],
-      bottomNavigationBar: BartyBottomNav(onItemSelectedChange: onPageSelected,),
+      bottomNavigationBar: BartyBottomNav(
+        onItemSelectedChange: onPageSelected,
+      ),
     );
   }
 }

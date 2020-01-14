@@ -2,6 +2,31 @@
 
 bar app
 
+## Adobe XD screenshot
+
+You can send an email to galliotlucas@gmail.com to be added to the adobeXD file. In the meantime. Here's a basic idea of what the app should look like.
+
+![i](markdown/images/overallperspective.png "Adobe XD schema")
+
+## Releases
+
+Please find more infos about every release/update in the [following file](markdown/releases.md)
+
+## RoadMap
+
+Here is a non-exhaustive list of what's next and what has been done
+
+[*] Create empty pages (skeleton)
+
+[*] Add fonts and assets
+
+[*] Create basic cards 
+
+[] Fetch using async/await and simulate network latency
+
+[] Create a backend service
+
+
 ## Participate
 
 ### Language
@@ -17,9 +42,5 @@ Source : [Flutter formatter](https://flutter.dev/docs/development/tools/formatti
 ### ReadMe
 
 Readme and markdown are easy ways to communicate with what's new in the project. We recommand you update those files everytime you add smth to the project using the maximum ammount of details.
-
-## Releases
-
-Please find more infos about every releases in the [following file](markdown/releases.md)
 
 

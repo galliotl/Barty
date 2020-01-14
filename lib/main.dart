@@ -1,3 +1,4 @@
+import 'package:barty/ui/pages/account/AccountPage.dart';
 import 'package:barty/ui/pages/main/MainHomePage.dart';
 import 'package:barty/ui/style/style.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Barty',
       theme: lightTheme,
-      home: MainHomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => MainHomePage(),
+        '/account': (context) => AccountPage(),
+      },
     );
   }
 }
