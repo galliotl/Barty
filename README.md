@@ -14,18 +14,7 @@ Please find more infos about every release/update in the [following file](markdo
 
 ## RoadMap
 
-Here is a non-exhaustive list of what's next and what has been done
-
-[*] Create empty pages (skeleton)
-
-[*] Add fonts and assets
-
-[*] Create basic cards 
-
-[] Fetch using async/await and simulate network latency
-
-[] Create a backend service
-
+You can open issues and comment on them on the github project. We will take a look at them and take them into consideration one by one. When an issue has been closed you'll be notified and details will be found on the [release page](markdown/releases.md)
 
 ## Participate
 

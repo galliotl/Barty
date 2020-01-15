@@ -2,6 +2,14 @@
 
 This is where you find informations about each releases
 
+## 0.2.0 - QR Code UI
+
+What has been done:
+
+* QR Code is available in the account navbar
+* Data can be passed to routes
+* Placeholder data has been initialized in the QRCode while waiting for a login workflow
+
 ## 0.1.0 - Basic cards
 
 This is the second build release. Here, we created:
