@@ -1,7 +1,7 @@
 import 'package:barty/ui/components/navbars/MainAppBar.dart';
-import 'package:barty/ui/pages/bars/BarsPage.dart';
-import 'package:barty/ui/pages/discover/DiscoverPage.dart';
-import 'package:barty/ui/pages/drinks/DrinksPage.dart';
+import 'package:barty/ui/pages/main/bars/BarsPage.dart';
+import 'package:barty/ui/pages/main/discover/DiscoverPage.dart';
+import 'package:barty/ui/pages/main/drinks/DrinksPage.dart';
 import 'package:flutter/material.dart';
 import 'package:barty/ui/components/navbars/BartyBottomNav.dart';
 

@@ -1,5 +1,5 @@
-import 'package:barty/ui/pages/discover/barList/BarListView.dart';
-import 'package:barty/ui/pages/discover/eventList/EventListView.dart';
+import 'package:barty/ui/pages/main/discover/barList/BarListView.dart';
+import 'package:barty/ui/pages/main/discover/eventList/EventListView.dart';
 import 'package:flutter/material.dart';
 
 class DiscoverPage extends StatelessWidget {

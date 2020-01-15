@@ -1,4 +1,4 @@
-import 'package:barty/ui/pages/drinks/beverageGrid.dart/BeverageCategoryGrid.dart';
+import 'package:barty/ui/pages/main/drinks/beverageGrid.dart/BeverageCategoryGrid.dart';
 import 'package:flutter/material.dart';
 
 class DrinksPage extends StatelessWidget {
