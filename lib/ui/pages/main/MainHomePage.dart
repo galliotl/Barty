@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:barty/ui/components/navbars/BartyBottomNav.dart';
 
 class MainHomePage extends StatefulWidget {
+  static final routeName = '/';
+  
   MainHomePage({Key key}) : super(key: key);
 
   @override
