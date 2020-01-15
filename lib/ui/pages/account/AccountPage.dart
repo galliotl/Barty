@@ -11,7 +11,7 @@ class AccountPage extends StatelessWidget {
       appBar: AccountNavBar(),
       body: Center(
         child: Text(
-          "Account",
+          "My account",
           style: Theme.of(context).textTheme.title,
         ),
       ),
