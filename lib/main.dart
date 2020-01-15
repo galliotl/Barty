@@ -1,6 +1,8 @@
 import 'package:barty/ui/pages/account/AccountPage.dart';
-import 'package:barty/ui/pages/account/QRCodePage.dart/QRCodePage.dart';
+import 'package:barty/ui/pages/account/SliderPage.dart/SliderPage.dart';
+import 'package:barty/ui/pages/login/LoginPage.dart';
 import 'package:barty/ui/pages/main/MainHomePage.dart';
+import 'package:barty/ui/pages/splash/SplashScreen.dart';
 import 'package:barty/ui/style/style.dart';
 import 'package:flutter/material.dart';
 
@@ -14,11 +16,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Barty',
       theme: lightTheme,
-      initialRoute: MainHomePage.routeName,
+      initialRoute: SplashScreen.routeName,
       routes: {
+        LoginPage.routeName: (context) => LoginPage(),
+        SplashScreen.routeName: (context) => SplashScreen(),
         MainHomePage.routeName: (context) => MainHomePage(),
         AccountPage.routeName: (context) => AccountPage(),
-        QRCodePage.routeName: (context) => QRCodePage(),
+        SliderPage.routeName: (context) => SliderPage(),
       },
     );
   }

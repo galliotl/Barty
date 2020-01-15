@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class QRCodeArguments {
+class SliderArguments {
   
   final ImageProvider imageProvider;
   final String data;
 
-  QRCodeArguments({@required this.data, this.imageProvider});
+  SliderArguments({@required this.data, this.imageProvider});
 
 }

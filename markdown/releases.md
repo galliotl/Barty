@@ -2,7 +2,11 @@
 
 This is where you find informations about each releases
 
-## 0.2.0 - QR Code UI
+## 0.2.1 - QR Code UI
+
+QR code is now removed. As a slider is considered to be a better option
+
+### 0.2.0 (deprecated) QR Code UI
 
 What has been done:
 

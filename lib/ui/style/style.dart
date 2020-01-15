@@ -24,6 +24,13 @@ ThemeData commonBetweenLightAndDark = ThemeData(
   bottomAppBarTheme: BottomAppBarTheme(
     elevation: 0,
   ),
+  buttonTheme: ButtonThemeData(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+    buttonColor: deepBlue,
+    splashColor: lightBlue,
+    minWidth: 150,
+    height: 50,
+  ),
   textTheme: TextTheme(
     body1: TextStyle(
       fontFamily: 'Nunito',
