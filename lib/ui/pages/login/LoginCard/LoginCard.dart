@@ -9,61 +9,59 @@ class LoginCard extends StatefulWidget {
 
 class _LoginCardState extends State<LoginCard> {
   
+  var _phone = "";
+  var _password = "";
+
   void login() {
     Navigator.of(context).pushNamed(MainHomePage.routeName);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      alignment: Alignment.bottomCenter,
-      widthFactor: .9,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(25),
+    return Card(
+      elevation: 3,
+      margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(30, 15, 30, 15),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  _phone = value;
+                });
+              },
+              decoration: InputDecoration(
+                labelText: 'Phone',
+              ),
+            ),
           ),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 10,
-              color: deepBlack.withOpacity(.16),
-            )
-          ],
-        ),
-        child: Center(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(30, 15, 30, 15),
-                child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Phone',
-                  ),
-                ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(30, 15, 30, 45),
+            child: TextField(
+              obscureText: true,
+              onChanged: (value) {
+                setState(() {
+                  _password = value;
+                });
+              },
+              decoration: InputDecoration(
+                labelText: 'Password',
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(30, 15, 30, 45),
-                child: TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                child: RaisedButton(
-                  onPressed: login,
-                  child: Text(
-                    "Login",
-                    style: Theme.of(context).textTheme.body1,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
+            child: RaisedButton(
+              onPressed: login,
+              child: Text(
+                "Login",
+                style: Theme.of(context).textTheme.body1,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

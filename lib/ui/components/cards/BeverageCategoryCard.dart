@@ -1,12 +1,12 @@
+import 'package:barty/model/BeverageCategory.dart';
 import 'package:barty/ui/components/alert/NotYetImplementedSnackbar.dart';
 import 'package:barty/ui/style/style.dart';
 import 'package:flutter/material.dart';
 
 class BeverageCategoryCard extends StatelessWidget {
-  final IconData icon;
-  final String name;
+  final BeverageCategory category;
 
-  BeverageCategoryCard({@required this.name, @required this.icon});
+  BeverageCategoryCard({@required this.category});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -26,12 +26,12 @@ class BeverageCategoryCard extends StatelessWidget {
                 Align(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    this.name,
+                    this.category.name,
                     style: Theme.of(context).textTheme.body1,
                   ),
                 ),
                 Align(
-                  child: Icon(icon),
+                  child: Icon(category.icon),
                   alignment: Alignment.center,
                 ),
               ],
