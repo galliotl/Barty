@@ -30,4 +30,11 @@ class Repository {
     return User.fakeConnectedUser();
   }
 
+  Future<BarPageDetail> fetchBarDetail(String barId) async {
+    var future = Future.delayed(Duration(seconds: 1), () {
+      return BarPageDetail.generateRandomBarDetail();
+    });
+    return await future;
+  }
+
 }

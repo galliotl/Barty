@@ -22,12 +22,12 @@ class DiscoverViewModel extends Model {
   final Repository repository = Repository();
 
   Future<bool> fetchBars() async {
-    bars = repository?.fetchBars();
+    if(bars == null) bars = repository?.fetchBars();
     return _bars != null;
   }
 
   Future<bool> fetchEvents() async {
-    events = repository?.fetchEvents();
+    if(events == null) events = repository?.fetchEvents();
     return _events != null;
   }
 

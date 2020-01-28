@@ -1,5 +1,4 @@
-import 'package:barty/model/SliderArguments.dart';
-import 'package:barty/ui/components/navbars/SliderAppBar.dart';
+import 'package:barty/ui/components/navbars/SimplestAppBar.dart';
 import 'package:flutter/material.dart';
 
 class SliderPage extends StatefulWidget {
@@ -23,10 +22,8 @@ class _SliderPageState extends State<SliderPage> {
   @override
   Widget build(BuildContext context) {
 
-    final SliderArguments args = ModalRoute.of(context).settings.arguments;
-
     return Scaffold(
-      appBar: SliderAppBar(),
+      appBar: SimplestAppBar(),
       body: Center(
         child: Text("comming soon...sliders")
       ),

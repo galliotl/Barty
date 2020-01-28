@@ -14,7 +14,7 @@ class BarsViewModel extends Model {
   final Repository repository = Repository();
 
   Future<bool> fetchBars() async {
-    bars = repository?.fetchBars();
+    if (bars == null) bars = repository?.fetchBars();
     return _bars != null;
   }
 

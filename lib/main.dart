@@ -1,5 +1,6 @@
 import 'package:barty/ui/pages/account/AccountPage.dart';
 import 'package:barty/ui/pages/account/SliderPage.dart/SliderPage.dart';
+import 'package:barty/ui/pages/bar/BarPage.dart';
 import 'package:barty/ui/pages/login/LoginPage.dart';
 import 'package:barty/ui/pages/main/MainHomePage.dart';
 import 'package:barty/ui/pages/splash/SplashScreen.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         MainHomePage.routeName: (context) => MainHomePage(),
         AccountPage.routeName: (context) => AccountPage(),
         SliderPage.routeName: (context) => SliderPage(),
+        BarPage.routeName: (context) => BarPage(),
       },
     );
   }

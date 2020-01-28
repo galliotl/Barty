@@ -24,9 +24,10 @@ class BarCard extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(5.0)),
             boxShadow: [
               BoxShadow(
-                  color: Color.fromRGBO(0, 0, 0, 0.16),
-                  offset: new Offset(0, 10.0),
-                  blurRadius: 10)
+                color: Color.fromRGBO(0, 0, 0, 0.16),
+                offset: new Offset(0, 10.0),
+                blurRadius: 10,
+              )
             ],
           ),
           child: Padding(

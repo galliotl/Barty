@@ -2,6 +2,25 @@
 
 This is where you find informations about each releases
 
+## 0.3.0 - Map + MVVM
+
+Implemented map and project is now using a MVVM structure.
+
+What has been done:
+
+* using an external widget, we created a pannel that overlays the map
+* we used flutter map in combinaison with mapbox to create a cool looking map
+* project data is now fetched externally and not directly in the widget's state using MVVM code separation principles
+* Mostly used a real device to test the app = better idea of how it works.
+
+TODO for this release:
+
+[] Make the bar detail card look better, find new design
+
+
+![map](images/map.jpg)
+
+
 ## 0.2.1 - QR Code UI
 
 QR code is now removed. As a slider is considered to be a better option

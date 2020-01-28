@@ -14,7 +14,7 @@ class DrinksViewModel extends Model {
   final Repository repository = Repository();
 
   Future<bool> fetchBeverageCategories() async {
-    beverageCategories = repository?.fetchBeverageCategories();
+    if(beverageCategories == null) beverageCategories = repository?.fetchBeverageCategories();
     return _beverageCategories != null;
   }
 

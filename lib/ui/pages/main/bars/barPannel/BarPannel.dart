@@ -1,17 +1,42 @@
 import 'package:barty/model/Bar.dart';
 import 'package:barty/ui/components/cards/BarDetailCard.dart';
-import 'package:barty/ui/style/style.dart';
 import 'package:barty/viewModel/BarsVM.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class BarPannel extends StatelessWidget {
+  final Icon icon;
+
+  BarPannel({this.icon});
+
+  Widget buildEmptyColomn() {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(bottom: 15),
+          child: icon,
+        ),
+        Align(
+          child: Container(
+            child: Padding(
+              child: CircularProgressIndicator(),
+              padding: EdgeInsets.all(15),
+            ),
+            height: 70,
+            width: 70,
+          ),
+          alignment: Alignment.topCenter,
+        ),
+      ],
+    );
+  }
+
   Widget buildBarsColumn(List<Bar> bars) {
     List<Widget> widgets = [
       Center(
-        child: Icon(
-          Icons.arrow_upward,
-          color: deepBlue,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 15),
+          child: icon,
         ),
       )
     ];
@@ -41,17 +66,7 @@ class BarPannel extends StatelessWidget {
               case ConnectionState.none:
               case ConnectionState.active:
               case ConnectionState.waiting:
-                return Align(
-                  child: Container(
-                    child: Padding(
-                      child: CircularProgressIndicator(),
-                      padding: EdgeInsets.all(15),
-                    ),
-                    height: 70,
-                    width: 70,
-                  ),
-                  alignment: Alignment.topCenter,
-                );
+                return buildEmptyColomn();
               case ConnectionState.done:
                 if (snapshot.hasData) {
                   var bars = snapshot.data;
