@@ -4,6 +4,7 @@ import 'package:barty/ui/style/style.dart';
 import 'package:barty/viewModel/BarsVM.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong/latlong.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -14,7 +15,7 @@ class BarMap extends StatelessWidget {
 
   final MapOptions mapOptions = MapOptions(
     minZoom: 10.0,
-    center: LatLng(51.5, -0.09), // TODO: here location of the user
+    center: LatLng(48.86, 2.34), // by default init in Paris
   );
 
   LayerOptions emptyMap() {
@@ -76,6 +77,46 @@ class BarMap extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<BarsViewModel>(
       builder: (context, child, model) {
+        return FutureBuilder<Position>(
+          future: model.userLocation,
+          builder: (_, AsyncSnapshot<Position> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.active:
+              case ConnectionState.waiting:
+                return Center(child: CircularProgressIndicator());
+              case ConnectionState.done:
+                if (snapshot.hasData) {
+                  var position = snapshot.data;
+                  mapOptions.center =
+                      LatLng(position.latitude, position.longitude);
+                  return FutureBuilder<List<Bar>>(
+                    future: model.bars,
+                    builder: (_, AsyncSnapshot<List<Bar>> snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.none:
+                        case ConnectionState.active:
+                        case ConnectionState.waiting:
+                          return buildEmptyMap();
+                        case ConnectionState.done:
+                          if (snapshot.hasData) {
+                            var bars = snapshot.data;
+                            return buildMapWithBars(bars);
+                          }
+                      }
+                      return Center(child: Text("error"));
+                    },
+                  );
+                }
+            }
+            return Center(child: Text("error"));
+          },
+        );
+      },
+    );
+
+    /*return ScopedModelDescendant<BarsViewModel>(
+      builder: (context, child, model) {
         return FutureBuilder<List<Bar>>(
           future: model.bars,
           builder: (_, AsyncSnapshot<List<Bar>> snapshot) {
@@ -94,6 +135,6 @@ class BarMap extends StatelessWidget {
           },
         );
       },
-    );
+    );*/
   }
 }

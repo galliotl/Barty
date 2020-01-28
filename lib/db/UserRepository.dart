@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uuid/uuid.dart';
 
 class UserRepository {
+    
   Future<String> authenticate({
     @required String username,
     @required String password,

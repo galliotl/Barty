@@ -28,7 +28,7 @@ class _BarsPageState extends State<BarsPage>
 
   Future loadData() async {
     await viewModel.fetchBars();
-
+    await viewModel.fetchUserLocation();
     viewModel.bars.then(
       (onValue) {
         setState(() {

@@ -2,7 +2,13 @@
 
 This is where you find informations about each releases
 
-## 0.3.0 - Map + MVVM
+## 0.3.1 - Map geolocation
+
+We used the user's location to center the map around. This is made using the geolocator plugin given by flutter. We followed this exact [tutorial](https://alligator.io/flutter/geolocator-plugin/)
+
+
+
+### 0.3.0 - Map + MVVM
 
 Implemented map and project is now using a MVVM structure.
 
