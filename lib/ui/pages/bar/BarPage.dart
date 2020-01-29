@@ -1,5 +1,6 @@
 import 'package:barty/model/Bar.dart';
 import 'package:barty/ui/components/navbars/SimplestAppBar.dart';
+import 'package:barty/ui/pages/bar/beverageList/BeverageList.dart';
 import 'package:barty/ui/style/style.dart';
 import 'package:barty/viewModel/BarPageViewModel.dart';
 import 'package:flutter/material.dart';
@@ -109,6 +110,20 @@ class _BarPageState extends State<BarPage> with SingleTickerProviderStateMixin {
                 height: 150,
                 child: BarEventListView(),
               ),
+            ),
+
+            // Served Beverages
+            Padding(
+              padding: EdgeInsets.fromLTRB(15, 40, 0, 15),
+              child: Text(
+                "Served drinks",
+                style: Theme.of(context).textTheme.subtitle,
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.fromLTRB(15, 0, 0, 15),
+              child: BeverageList(),
             ),
           ],
         ),

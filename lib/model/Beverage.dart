@@ -19,7 +19,7 @@ class Beverage {
             name: "beer",
           ),
           name: "Ipa",
-          description: "this strong taste IPA will help u be your best self",
+          description: "Strong malt taste, citrus snap",
         ),
       );
     }

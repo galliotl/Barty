@@ -52,9 +52,9 @@ class BarPageDetail {
   BarPageDetail({this.bar, this.events, this.servedBeverages});
 
   static generateRandomBarDetail() {
-    var bars = Bar.generateRandomBars(1);
-    var events = Event.generateRandomEvents(3);
-    var servedBeverages = Beverage.generateRandomBeverage(3);
+    List<Bar> bars = Bar.generateRandomBars(1);
+    List<Event> events = Event.generateRandomEvents(3);
+    List<Beverage> servedBeverages = Beverage.generateRandomBeverage(3);
 
     return BarPageDetail(
       bar: bars[0],

@@ -2,6 +2,14 @@
 
 This is where you find informations about each releases
 
+## 0.4.0 - Bar page
+
+We now have a functionnal bar page. It displays, details about the bar, drinks served and events organised in the bar.
+
+| ![i](images/bar1.jpg "Bar page") | ![i](images/bar2.jpg "Bar page") |
+|---|---|
+
+
 ## 0.3.2 - Map fix
 
 Closed #13 where when navigation wasn't allowed, it spinned forever. Now it is by default pointing towards Paris.

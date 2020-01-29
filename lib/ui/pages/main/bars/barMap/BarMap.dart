@@ -93,8 +93,6 @@ class BarMap extends StatelessWidget {
                         LatLng(position.latitude, position.longitude);
                   } // else is init as Paris
                 }
-                print(mapOptions.center);
-
                 return FutureBuilder<List<Bar>>(
                   future: model.bars,
                   builder: (_, AsyncSnapshot<List<Bar>> snapshot) {
