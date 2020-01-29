@@ -88,53 +88,35 @@ class BarMap extends StatelessWidget {
               case ConnectionState.done:
                 if (snapshot.hasData) {
                   var position = snapshot.data;
-                  mapOptions.center =
-                      LatLng(position.latitude, position.longitude);
-                  return FutureBuilder<List<Bar>>(
-                    future: model.bars,
-                    builder: (_, AsyncSnapshot<List<Bar>> snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.none:
-                        case ConnectionState.active:
-                        case ConnectionState.waiting:
-                          return buildEmptyMap();
-                        case ConnectionState.done:
-                          if (snapshot.hasData) {
-                            var bars = snapshot.data;
-                            return buildMapWithBars(bars);
-                          }
-                      }
-                      return Center(child: Text("error"));
-                    },
-                  );
+                  if (position != null) {
+                    mapOptions.center =
+                        LatLng(position.latitude, position.longitude);
+                  } // else is init as Paris
                 }
+                print(mapOptions.center);
+
+                return FutureBuilder<List<Bar>>(
+                  future: model.bars,
+                  builder: (_, AsyncSnapshot<List<Bar>> snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.active:
+                      case ConnectionState.waiting:
+                        return buildEmptyMap();
+                      case ConnectionState.done:
+                        if (snapshot.hasData) {
+                          var bars = snapshot.data;
+                          return buildMapWithBars(bars);
+                        }
+                    }
+                    return Center(child: Text("error"));
+                  },
+                );
             }
             return Center(child: Text("error"));
           },
         );
       },
     );
-
-    /*return ScopedModelDescendant<BarsViewModel>(
-      builder: (context, child, model) {
-        return FutureBuilder<List<Bar>>(
-          future: model.bars,
-          builder: (_, AsyncSnapshot<List<Bar>> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-              case ConnectionState.active:
-              case ConnectionState.waiting:
-                return buildEmptyMap();
-              case ConnectionState.done:
-                if (snapshot.hasData) {
-                  var bars = snapshot.data;
-                  return buildMapWithBars(bars);
-                }
-            }
-            return Center(child: Text("error"));
-          },
-        );
-      },
-    );*/
   }
 }

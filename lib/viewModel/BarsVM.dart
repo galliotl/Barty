@@ -1,9 +1,14 @@
 import 'package:barty/db/Repository.dart';
 import 'package:barty/model/Bar.dart';
+import 'package:barty/service/LocationService.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class BarsViewModel extends Model {
+  
+  final Repository repository = Repository();
+  final LocationService locationService = LocationService();
+  
   Future<Position> _userLocation;
   Future<Position> get userLocation => _userLocation;
   set userLocation(Future<Position> location) {
@@ -18,13 +23,9 @@ class BarsViewModel extends Model {
     notifyListeners();
   }
 
-  final Repository repository = Repository();
-
   Future<bool> fetchUserLocation() async {
     if (userLocation == null) {
-      final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
-      userLocation = geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+      userLocation = locationService.getUserLocation();
     }
     return _userLocation != null;
   }

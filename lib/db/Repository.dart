@@ -37,4 +37,11 @@ class Repository {
     return await future;
   }
 
+  Future<bool> validateUserWithBar(String uid, String bid) async {
+    var future = Future.delayed(Duration(seconds: 1), () {
+      return true;
+    });
+    return await future;
+  }
+
 }

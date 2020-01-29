@@ -1,5 +1,5 @@
 import 'package:barty/model/Bar.dart';
-import 'package:barty/ui/components/alert/NotYetImplementedSnackbar.dart';
+import 'package:barty/ui/pages/bar/BarPage.dart';
 import 'package:flutter/material.dart';
 
 class BarCard extends StatelessWidget {
@@ -10,8 +10,12 @@ class BarCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Scaffold.of(context)
-          .showSnackBar(NotYetImplementedSnackbar(context: context)),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BarPage(bar: bar),
+        ),
+      ),
       child: SizedBox(
         width: 150,
         height: 150,
@@ -25,7 +29,7 @@ class BarCard extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.16),
-                offset: new Offset(0, 10.0),
+                offset: Offset(0, 10.0),
                 blurRadius: 10,
               )
             ],

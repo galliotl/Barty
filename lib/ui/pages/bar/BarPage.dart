@@ -1,8 +1,11 @@
 import 'package:barty/model/Bar.dart';
 import 'package:barty/ui/components/navbars/SimplestAppBar.dart';
+import 'package:barty/ui/style/style.dart';
 import 'package:barty/viewModel/BarPageViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+
+import 'eventList/EventList.dart';
 
 class BarPage extends StatefulWidget {
   static final routeName = '/bar';
@@ -44,11 +47,23 @@ class _BarPageState extends State<BarPage> with SingleTickerProviderStateMixin {
             Padding(
               child: Align(
                 alignment: Alignment.center,
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    bar.imagePath,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        color: lightBlack.withOpacity(.16),
+                        offset: Offset(0, 10.0),
+                      )
+                    ]
                   ),
-                  radius: 50,
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      bar.imagePath,
+                    ),
+                    radius: 50,
+                  ),
                 ),
               ),
               padding: EdgeInsets.fromLTRB(0, 30, 0, 40),
@@ -80,7 +95,21 @@ class _BarPageState extends State<BarPage> with SingleTickerProviderStateMixin {
             ),
 
             // Events
-            
+            Padding(
+              padding: EdgeInsets.fromLTRB(15, 40, 0, 15),
+              child: Text(
+                "Bar's events",
+                style: Theme.of(context).textTheme.subtitle,
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.fromLTRB(15, 0, 0, 15),
+              child: Container(
+                height: 150,
+                child: BarEventListView(),
+              ),
+            ),
           ],
         ),
       ),

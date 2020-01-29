@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
         MainHomePage.routeName: (context) => MainHomePage(),
         AccountPage.routeName: (context) => AccountPage(),
         SliderPage.routeName: (context) => SliderPage(),
-        BarPage.routeName: (context) => BarPage(),
       },
     );
   }
