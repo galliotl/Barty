@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "watch": false,
+        "lib": ["dom", "es2017"],
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "allowSyntheticDefaultImports": true,
+    }
+}

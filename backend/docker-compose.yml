@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  auth:
+    build: ./authentication/
+    ports:
+      - 8000:3000
+    environment:
+      - SECRET_KEY=secretkey
+  db:
+    image: mongo:3.4
+    ports:
+      - 8001:27017
