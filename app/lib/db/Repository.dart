@@ -26,10 +26,6 @@ class Repository {
     return await future;
   }
 
-  Future<User> fetchUserData(String connectedUser) async {
-    return User.fakeConnectedUser();
-  }
-
   Future<BarPageDetail> fetchBarDetail(String barId) async {
     var future = Future.delayed(Duration(seconds: 1), () {
       return BarPageDetail.generateRandomBarDetail();

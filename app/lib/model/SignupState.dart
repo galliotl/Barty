@@ -1,0 +1,15 @@
+enum SignupState {
+  Empty,
+  PhoneEntered,
+  PhoneValidated,
+  PhoneInValid,
+  PhoneCodeEntered,  
+  PhoneCodeConfirmed,
+  PhoneCodeInvalid,
+  PswEntered,
+  PswValid,
+  PswInvalid,
+  IdEntered,
+  SignedUp,
+  SignupFailed,
+}

@@ -1,50 +1,46 @@
+import 'package:barty/model/SignupState.dart';
+import 'package:barty/providerModel/SignupModel.dart';
+import 'package:barty/ui/pages/login/SignupCard/idStep/IdStep.dart';
+import 'package:barty/ui/pages/login/SignupCard/phoneConfirmationStep/PhoneConfirmationStep.dart';
+import 'package:barty/ui/pages/login/SignupCard/phoneStep/PhoneStep.dart';
 import 'package:flutter/material.dart';
-import 'package:barty/ui/style/style.dart';
+import 'package:provider/provider.dart';
 
-class SignupCard extends StatefulWidget {
-  @override
-  _SignupCardState createState() => _SignupCardState();
-}
-
-class _SignupCardState extends State<SignupCard> {
-  void signup() {}
-
+class SignupCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(30, 15, 30, 15),
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: 'Phone',
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(30, 15, 30, 45),
-            child: TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
-            child: RaisedButton(
-              onPressed: signup,
-              child: Text(
-                "Signup",
-                style: Theme.of(context).textTheme.body1,
-              ),
-            ),
-          ),
-        ],
+    return ChangeNotifierProvider(
+      create: (_) => SignupModel(),
+      child: Consumer(
+        builder: (context, SignupModel signupModel, _) {
+          switch (signupModel.signupState) {
+            case SignupState.PhoneCodeEntered:
+            case SignupState.IdEntered:
+            case SignupState.PhoneEntered:
+            case SignupState.IdEntered:
+              return Center(child: CircularProgressIndicator());
+
+            case SignupState.PhoneInValid:
+            case SignupState.Empty:
+              {
+                return PhoneStep();
+              }
+            case SignupState.PhoneCodeInvalid:
+            case SignupState.PhoneValidated:
+              {
+                return PhoneConfirmationStep();
+              }
+            case SignupState.PhoneCodeConfirmed:
+              {
+                return IDStep();
+              }
+            case SignupState.SignedUp:
+              {
+                return Placeholder();
+              }
+          }
+          return Placeholder();
+        },
       ),
     );
   }

@@ -112,7 +112,8 @@ app.post(
   "/users/login",
   async (req: express.Request, res: express.Response) => {
     const { phone, password } = req.body;
-
+    console.log(req.body);
+    console.log(phone, password);
     // verify user is correctly filled
     if (!phone || !password)
       return res.status(422).send("user isn't filled properly");
