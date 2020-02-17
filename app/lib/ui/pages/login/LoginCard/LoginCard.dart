@@ -1,5 +1,7 @@
+import 'package:barty/model/AuthenticationState.dart';
 import 'package:barty/providerModel/AuthModel.dart';
 import 'package:barty/providerModel/LoginModel.dart';
+import 'package:barty/ui/pages/login/LoadingCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +19,9 @@ class LoginCard extends StatelessWidget {
           // having to notify the whole app and reload every components
           return Consumer(
             builder: (context, LoginModel loginModel, _) {
+              if (authModel.state == AuthenticationState.Authenticating) {
+                return LoadingCard();
+              }
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -32,10 +37,6 @@ class LoginCard extends StatelessWidget {
                         labelText: 'Phone',
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(30, 15, 30, 0),
-                    child: Text(authModel.error, style: Theme.of(context).textTheme.body1)
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(30, 15, 30, 60),

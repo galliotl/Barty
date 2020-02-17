@@ -1,4 +1,3 @@
-import 'package:barty/model/SignupState.dart';
 import 'package:barty/providerModel/SignupModel.dart';
 import 'package:barty/ui/components/alert/ErrorSnackbar.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +14,6 @@ class PhoneConfirmationStep extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, SignupModel signupModel, _) {
-        if (signupModel.signupState == SignupState.PhoneCodeInvalid) {
-          showErrorSnackbar(context, signupModel);
-        }
         return Stack(
           children: [
             // Titre

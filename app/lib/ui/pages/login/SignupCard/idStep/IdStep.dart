@@ -51,11 +51,12 @@ class IDStep extends StatelessWidget {
                       onPressed: signupModel.isFormFormatValid()
                           ? () {
                               authModel.signupUser(
-                                signupModel.phone,
-                                signupModel.password,
-                                signupModel.firstname,
-                                signupModel.lastname,
-                                signupModel.signupToken,
+                                signupToken: signupModel.signupToken,
+                                firstname: signupModel.firstname,
+                                lastname: signupModel.lastname,
+                                psw: signupModel.password,
+                                isMajor: signupModel.major,
+                                isPhoneConfirmed: signupModel.verifyPhoneCode()
                               );
                             }
                           : null,

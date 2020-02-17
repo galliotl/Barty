@@ -15,9 +15,6 @@ class PhoneStep extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, SignupModel signupModel, _) {
-        if (signupModel.signupState == SignupState.PhoneInValid) {
-          showErrorSnackbar(context, signupModel);
-        }
         return Stack(
           children: [
             // Titre

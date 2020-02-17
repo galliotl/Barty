@@ -13,3 +13,9 @@ enum SignupState {
   SignedUp,
   SignupFailed,
 }
+
+class SignupContext {
+  String msg;
+  SignupState state;
+  SignupContext({this.msg, this.state});
+}

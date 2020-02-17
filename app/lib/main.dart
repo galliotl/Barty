@@ -2,7 +2,6 @@ import 'package:barty/model/AuthenticationState.dart';
 import 'package:barty/providerModel/AuthModel.dart';
 import 'package:barty/ui/pages/account/AccountPage.dart';
 import 'package:barty/ui/pages/account/SliderPage.dart/SliderPage.dart';
-import 'package:barty/ui/pages/bar/BarPage.dart';
 import 'package:barty/ui/pages/login/LoginPage.dart';
 import 'package:barty/ui/pages/main/MainHomePage.dart';
 import 'package:barty/ui/pages/splash/SplashScreen.dart';
@@ -16,13 +15,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Barty',
-      theme: lightTheme,
-      home: ChangeNotifierProvider(
-        create: (_) => AuthModel(),
-        child: Consumer(
+    return ChangeNotifierProvider(
+      create: (_) => AuthModel(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Barty',
+        theme: lightTheme,
+        home: Consumer(
           builder: (context, AuthModel authModel, _) {
             switch (authModel.state) {
               case AuthenticationState.Unchecked:
@@ -37,14 +36,14 @@ class MyApp extends StatelessWidget {
             }
           },
         ),
+        routes: {
+          LoginPage.routeName: (context) => LoginPage(),
+          SplashScreen.routeName: (context) => SplashScreen(),
+          MainHomePage.routeName: (context) => MainHomePage(),
+          AccountPage.routeName: (context) => AccountPage(),
+          SliderPage.routeName: (context) => SliderPage(),
+        },
       ),
-      routes: {
-        LoginPage.routeName: (context) => LoginPage(),
-        SplashScreen.routeName: (context) => SplashScreen(),
-        MainHomePage.routeName: (context) => MainHomePage(),
-        AccountPage.routeName: (context) => AccountPage(),
-        SliderPage.routeName: (context) => SliderPage(),
-      },
     );
   }
 }

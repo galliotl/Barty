@@ -1,7 +1,10 @@
+import 'package:barty/db/UserRepository.dart';
 import 'package:barty/model/SignupState.dart';
 import 'package:flutter/foundation.dart';
 
 class SignupModel extends ChangeNotifier {
+
+  final userRepository = UserRepository();
   
   String _errorMsg = "";
   get errorMsg => _errorMsg;
@@ -47,6 +50,7 @@ class SignupModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  String receivedPhoneCode;
   String _phoneCode = "";
   get phoneCode => _phoneCode;
   set phoneCode(String phoneCode) {
@@ -81,7 +85,7 @@ class SignupModel extends ChangeNotifier {
       case SignupState.PhoneValidated:
         {
           signupState = SignupState.PhoneCodeEntered;
-          if (await verifyPhoneCode())
+          if (verifyPhoneCode())
             signupState = SignupState.PhoneCodeConfirmed;
           else {
             errorMsg = "The confirmation code you entered is invalid";
@@ -113,7 +117,14 @@ class SignupModel extends ChangeNotifier {
 
   Future<bool> verifyPhone() async {
     if (!isPhoneFormatValid()) return false;
-    // need to call the Users/signup/phone api to get the token n shit
+    Map codeAndToken = await userRepository.getPhoneCodeAndToken(phone);
+    if(codeAndToken == null) {
+      // error
+      errorMsg = "could not verify the phone";
+      return false;
+    }
+    signupToken = codeAndToken['token'];
+    receivedPhoneCode = codeAndToken['code'];
     return true;
   }
 
@@ -121,8 +132,8 @@ class SignupModel extends ChangeNotifier {
     return phone.length >= 10;
   }
 
-  Future<bool> verifyPhoneCode() async {
-    return phoneCode == "0000";
+  bool verifyPhoneCode() {
+    return phoneCode == receivedPhoneCode;
   }
 
   bool isPhoneCodeFormatValid() {

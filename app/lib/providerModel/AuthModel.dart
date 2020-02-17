@@ -1,6 +1,7 @@
 import 'package:barty/db/UserRepository.dart';
 import 'package:barty/model/AuthenticationState.dart';
 import 'package:barty/model/LoginState.dart';
+import 'package:barty/model/SignupState.dart';
 import 'package:flutter/foundation.dart';
 
 class AuthModel extends ChangeNotifier {
@@ -18,7 +19,6 @@ class AuthModel extends ChangeNotifier {
     notifyListeners();
   }
 
-
   UserRepository userRepository = UserRepository();
 
   AuthModel() {
@@ -32,8 +32,9 @@ class AuthModel extends ChangeNotifier {
   }
 
   Future<void> login(String phone, String password) async {
-    LoginContext loginContext = await userRepository?.loginUser(phone, password);
-    if(loginContext.state == LoginState.LoginSucceded) {
+    LoginContext loginContext =
+        await userRepository?.loginUser(phone, password);
+    if (loginContext.state == LoginState.LoginSucceded) {
       state = AuthenticationState.Authenticated;
     } else {
       state = AuthenticationState.UnAuthenticated;
@@ -41,9 +42,25 @@ class AuthModel extends ChangeNotifier {
     }
   }
 
-  signupUser(String phone, String psw, String firstname, String lastname, String signupToken) {
-    // Todo: signup the user
-    state = AuthenticationState.Authenticated;
+  signupUser(
+      {@required String psw,
+      @required String firstname,
+      @required String lastname,
+      @required String signupToken,
+      @required bool isMajor,
+      @required bool isPhoneConfirmed}) async {
+    SignupContext loginContext = await userRepository?.signupUser(
+        signupToken: signupToken,
+        name: "$firstname $lastname",
+        password: psw,
+        isMajor: isMajor,
+        isPhoneConfirmed: isPhoneConfirmed);
+    if (loginContext.state == SignupState.SignedUp) {
+      state = AuthenticationState.Authenticated;
+    } else {
+      state = AuthenticationState.UnAuthenticated;
+      error = loginContext.msg;
+    }
   }
 
   signout() {
