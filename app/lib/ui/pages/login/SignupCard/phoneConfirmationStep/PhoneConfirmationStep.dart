@@ -28,7 +28,7 @@ class PhoneConfirmationStep extends StatelessWidget {
                       style: Theme.of(context).textTheme.title,
                     ),
                     Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsets.fromLTRB(30, 15, 30, 15),
                       child: Text(
                         "You will receive a sms with an activation code. Please write it down here",
                         style: Theme.of(context).textTheme.body2,
@@ -41,7 +41,7 @@ class PhoneConfirmationStep extends StatelessWidget {
 
             Center(
               child: Padding(
-                padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
                 child: TextField(
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[

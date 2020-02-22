@@ -1,13 +1,9 @@
 import 'package:flutter/foundation.dart';
 
+/// This provider model is only used to store the login variable.
+/// This way we can verify independently from the view if a login
+/// is valid. 
 class LoginModel extends ChangeNotifier {
-  String _errorMsg = "";
-  get errorMsg => _errorMsg;
-  set errorMsg(String msg) {
-    _errorMsg = msg;
-    notifyListeners();
-  }
-
   String _phone = "";
   get phone => _phone;
   set phone(String phone) {
@@ -29,7 +25,6 @@ class LoginModel extends ChangeNotifier {
   
   bool verifyPhone(String phone) {
     if (phone.length <= 10) return false;
-    // need to call the Users/signup/phone api to get the token n shit
     return true;
   }
 }

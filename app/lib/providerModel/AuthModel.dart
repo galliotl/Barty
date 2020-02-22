@@ -4,6 +4,12 @@ import 'package:barty/model/LoginState.dart';
 import 'package:barty/model/SignupState.dart';
 import 'package:flutter/foundation.dart';
 
+
+/// Handles the communication between the user repository
+/// and the view. It's a view model from a MVVM standpoint.
+/// It stores an auth state and is initialized at the root of
+/// the app so all the descendent can see what's the current
+/// auth state.
 class AuthModel extends ChangeNotifier {
   AuthenticationState _state = AuthenticationState.Unchecked;
   get state => _state;
@@ -32,6 +38,7 @@ class AuthModel extends ChangeNotifier {
   }
 
   Future<void> login(String phone, String password) async {
+    print("called");
     LoginContext loginContext =
         await userRepository?.loginUser(phone, password);
     if (loginContext.state == LoginState.LoginSucceded) {

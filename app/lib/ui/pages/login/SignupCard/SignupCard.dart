@@ -46,7 +46,7 @@ class SignupCard extends StatelessWidget {
                 return Placeholder();
               }
           }
-          return Placeholder();
+          return LoadingCard();
         },
       ),
     );

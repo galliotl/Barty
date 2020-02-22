@@ -4,9 +4,8 @@ import 'package:barty/ui/pages/login/SignupCard/SignupCard.dart';
 import 'package:flutter/material.dart';
 
 /// This class provides widgets cards and so one to the Login Page
-/// And ways to change it dynamically externalising the core 
+/// And ways to change it dynamically externalising the core
 /// functions out of the widget.
-
 class LoginOrSignupModel extends ChangeNotifier {
   LoginOrSignup _loginOrSignup = LoginOrSignup.Login;
   get loginOrSignup => _loginOrSignup;
@@ -30,7 +29,7 @@ class LoginOrSignupModel extends ChangeNotifier {
   }
 
   switchCard() {
-    if(loginOrSignup == LoginOrSignup.Login) {
+    if (loginOrSignup == LoginOrSignup.Login) {
       loginOrSignup = LoginOrSignup.Signup;
       loginOrSignupCardContent = SignupCard();
       loginOrSignupTxt = "Login";
@@ -40,5 +39,4 @@ class LoginOrSignupModel extends ChangeNotifier {
       loginOrSignupTxt = "Signup";
     }
   }
-
 }

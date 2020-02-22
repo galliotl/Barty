@@ -2,6 +2,12 @@ import 'package:barty/db/UserRepository.dart';
 import 'package:barty/model/SignupState.dart';
 import 'package:flutter/foundation.dart';
 
+
+/// This provider model stores all the variables concerning
+/// the signup process. All the fileds' data and especially
+/// the current step (phone, code, psw...) so we can manage
+/// switching from one step to another independently from
+/// the view for a better separation of concerns
 class SignupModel extends ChangeNotifier {
 
   final userRepository = UserRepository();
@@ -77,6 +83,7 @@ class SignupModel extends ChangeNotifier {
           } else {
             errorMsg = "The phone entered couldn't be validated";
             signupState = SignupState.PhoneInValid;
+            phone="";
           }
           break;
         }
@@ -90,6 +97,7 @@ class SignupModel extends ChangeNotifier {
           else {
             errorMsg = "The confirmation code you entered is invalid";
             signupState = SignupState.PhoneCodeInvalid;
+            phoneCode="";
           }
           break;
         }
@@ -102,6 +110,7 @@ class SignupModel extends ChangeNotifier {
             signupState = SignupState.PswValid;
           } else {
             signupState = SignupState.PswInvalid;
+            password = "";
           }
           break;
         }

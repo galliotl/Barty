@@ -1,4 +1,3 @@
-import 'package:barty/model/SignupState.dart';
 import 'package:barty/providerModel/SignupModel.dart';
 import 'package:barty/ui/components/alert/ErrorSnackbar.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class PhoneStep extends StatelessWidget {
 
             Center(
               child: Padding(
-                padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
                 child: TextField(
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[

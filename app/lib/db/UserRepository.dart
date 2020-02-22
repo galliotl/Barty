@@ -1,13 +1,14 @@
-import 'package:barty/db/AppAPI.dart';
+import 'dart:convert';
+
 import 'package:barty/model/LoginState.dart';
 import 'package:barty/model/SignupState.dart';
-import 'package:barty/model/User.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:barty/db/apiConstants.dart' as apiCsts;
 
 class UserRepository {
   final storage = FlutterSecureStorage();
-  final api = AppAPI();
 
   Future<void> deleteToken() async {
     /// delete from keystore/keychain
@@ -28,10 +29,14 @@ class UserRepository {
   }
 
   Future<LoginContext> loginUser(String phone, String password) async {
-    dynamic body = {"phone": phone, "password": password};
-    Map response;
+    String body = json.encode({"phone": phone, "password": password});
+    http.Response response;
+
     try {
-      response = await api.post("/users/login", body);
+      response = await http
+          .post("${apiCsts.backendUrl}/users/login", body: body, headers: {
+        "Content-Type": "application/json",
+      });
     } catch (err) {
       print(err);
       return LoginContext(
@@ -39,13 +44,14 @@ class UserRepository {
     }
 
     // handle errors
-    if (response['statusCode'] != 200) {
-      print(response['body']);
+    if (response.statusCode != 200) {
+      print(response.body);
       return LoginContext(
           state: LoginState.LoginFailed, msg: "Password or username incorrect");
     }
 
-    var token = response['body']["token"];
+    var responseBody = json.decode(response.body);
+    var token = responseBody['token'];
 
     if (token == null) {
       return LoginContext(
@@ -61,16 +67,20 @@ class UserRepository {
       @required String signupToken,
       @required bool isMajor,
       @required bool isPhoneConfirmed}) async {
-    dynamic body = {
+    String body = json.encode({
       "name": name,
-      "token": signupToken,
       "password": password,
       "isMajor": isMajor,
       "isPhoneConfirmed": isPhoneConfirmed,
-    };
-    Map response;
+    });
+    http.Response response;
+
     try {
-      response = await api.post("/users/signup", body);
+      response = await http
+          .post("${apiCsts.backendUrl}/users/signup", body: body, headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Token $signupToken",
+      });
     } catch (err) {
       print(err);
       return SignupContext(
@@ -78,14 +88,15 @@ class UserRepository {
     }
 
     // handle errors
-    if (response['statusCode'] != 200) {
-      print(response['body']);
+    if (response.statusCode != 200) {
+      print(response.body);
       return SignupContext(
           state: SignupState.SignupFailed,
           msg: "Password or username incorrect");
     }
 
-    var token = response['body']["token"];
+    var responseBody = json.decode(response.body);
+    var token = responseBody['token'];
 
     if (token == null) {
       return SignupContext(
@@ -97,11 +108,15 @@ class UserRepository {
 
   Future<Map> getPhoneCodeAndToken(String phone) async {
     try {
-      Map response = await api.post('/users/signup/phone', {"phone": phone});
-      if (response["statusCode"] == 200) {
+      http.Response response = await http.post(
+          '${apiCsts.backendUrl}/users/signup/phone',
+          body: json.encode({"phone": phone}),
+          headers: {"Content-Type": "application/json"});
+      if (response.statusCode == 200) {
+        var responseBody = json.decode(response.body);
         return {
-          'token': response["body"]["token"],
-          'code': response["body"]["confirmationCode"],
+          'token': responseBody["token"],
+          'code': responseBody["confirmationCode"],
         };
       } else
         return null;
@@ -109,10 +124,5 @@ class UserRepository {
       print(err);
       return null;
     }
-  }
-
-  Future<User> fetchUserData(String phone) async {
-    // todo: make user.fromJson()
-    return User.fakeConnectedUser();
   }
 }

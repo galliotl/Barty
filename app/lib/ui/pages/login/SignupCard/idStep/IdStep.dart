@@ -9,7 +9,7 @@ class IDStep extends StatelessWidget {
     return Consumer(
       builder: (context, SignupModel signupModel, _) {
         return Padding(
-          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

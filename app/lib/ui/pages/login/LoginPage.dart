@@ -36,6 +36,7 @@ class LoginPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(25)),
                         child: Container(
                           height: 300,
+                          width: 400,
                           child: model.loginOrSignupCardContent,
                         ),
                       ),

@@ -33,7 +33,7 @@ class PswStep extends StatelessWidget {
 
             Center(
               child: Padding(
-                padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
                 child: TextField(
                   obscureText: true,
                   onChanged: (value) {
