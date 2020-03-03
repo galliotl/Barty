@@ -8,7 +8,7 @@ You can find the app documentation [here](./app/README.md)
 
 ## Backend documentation
 
-You can find the backend documentation [here](./app/README.md)
+You can find the backend documentation [here](./backend/README.md)
 
 ## Contribute
 
