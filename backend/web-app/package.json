@@ -1,15 +1,8 @@
 {
-  "name": "authentication",
+  "name": "web-app",
   "version": "1.0.0",
-  "description": "Authentication expressJs server",
-  "main": "index.js",
-  "scripts": {
-    "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts",
-    "build": "tsc -p ."
-  },
-  "author": "Lucas Galliot",
-  "license": "ISC",
+  "description": "Core data handler",
+  "main": "dist/index.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
@@ -25,5 +18,12 @@
     "nodemon": "^2.0.2",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
-  }
+  },
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts",
+    "build": "tsc -p ."
+  },
+  "author": "lucas galliot",
+  "license": "ISC"
 }
