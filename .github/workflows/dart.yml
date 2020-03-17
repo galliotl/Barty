@@ -14,9 +14,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Set working directory
+      working-directory: ./app
     - name: Install dependencies
       run: pub get
-      working-directory: ./app
     - name: Run tests
       run: pub run test
-      working-directory: ./app
