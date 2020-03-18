@@ -14,13 +14,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - working-directory: ./backend
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1
         with:
-          node-version: 10.x
+          node-version: 10.x  
       - run: ls
-      - name: Npm build if present
-        run: npm run build --if-present
+        working-directory: ./backend
+      - run: npm run build --if-present 
       - run: npm test --if-present
         env:
           CI: true
