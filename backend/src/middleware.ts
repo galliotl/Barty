@@ -3,8 +3,7 @@ import { Request, Response, NextFunction } from "express";
 
 // local libs
 import User from "./db/models/user";
-import { getTokenData } from "./tokenHelpers";
-import { request } from "http";
+import { getTokenData } from "./utils/tokenHelpers";
 
 /**
  * This middleware function verifies the presence of a
@@ -24,7 +23,7 @@ export const verifyToken = async (
       ? req.headers["authorization"] != null
       : req.body.token;
 
-  if (typeof bearerHeader !== "undefined") {
+  if (typeof bearerHeader !== "string") {
     const bearer = bearerHeader.split(" ");
     const bearerToken = bearer[1];
 
@@ -68,4 +67,22 @@ export const verifyAuth = async (
   } catch (err) {
     return res.status(500).send(err);
   }
+};
+
+/**
+ * This function verifies the presence of some mandatory
+ * parameters in the request and returns an error otherwise
+ * @param mandatoryParams  -> a list of the mandatory params
+ * @param body -> the function body
+ */
+export const verifyMandatoryParams = (
+  mandatoryParams: Array<string>,
+  body: any
+): Boolean => {
+  mandatoryParams.forEach(param => {
+    if (!body[param]) {
+      return false;
+    }
+  });
+  return true;
 };

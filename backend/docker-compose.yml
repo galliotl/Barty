@@ -2,7 +2,7 @@ version: '3'
 
 services:
   auth:
-    build: ./authentication/
+    build: .
     ports:
       - 8000:3000
     environment:
