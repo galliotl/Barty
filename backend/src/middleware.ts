@@ -20,10 +20,10 @@ export const verifyToken = async (
 ) => {
   const bearerHeader =
     req.headers["authorization"] != null
-      ? req.headers["authorization"] != null
+      ? req.headers["authorization"]
       : req.body.token;
 
-  if (typeof bearerHeader !== "string") {
+  if (typeof bearerHeader === "string") {
     const bearer = bearerHeader.split(" ");
     const bearerToken = bearer[1];
 
@@ -32,7 +32,7 @@ export const verifyToken = async (
     try {
       req.body.tokenData = await getTokenData(bearerToken);
     } catch (err) {
-      return res.status(403).send("malformed token");
+      return res.status(403).send(err);
     }
     return next();
   } else {

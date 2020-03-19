@@ -12,10 +12,8 @@ export const createToken = async (payload: any): Promise<String> => {
 };
 
 export const getTokenData = async (token: string): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    jwt.verify(token, jwtSecretKey, (err, authData) => {
-      if (err) reject(err);
-      else resolve(authData);
-    });
+  return jwt.verify(token, jwtSecretKey, (err, authData) => {
+    if (err) throw err;
+    else return authData;
   });
 };
