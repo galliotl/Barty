@@ -1,0 +1,27 @@
+name: Node.js CI
+
+on:
+  push:
+    paths: 
+      - 'backend/**'
+      - '!**/README.md'
+    branches: [ master, dev ]
+  pull_request:
+    branches: [ master, dev ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.x  
+      - run: npm run build --if-present
+        working-directory: ./backend 
+      - run: npm test --if-present
+        working-directory: ./backend
+        env:
+          CI: true
