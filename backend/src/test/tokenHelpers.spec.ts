@@ -3,7 +3,7 @@ import { expect } from "chai";
 import "mocha";
 
 // internal libraries
-import { createToken, getTokenData } from "../src/utils/tokenHelpers";
+import { createToken, getTokenData } from "../utils/tokenHelpers";
 
 describe("Create token function", () => {
   it("should return a string", async () => {

@@ -53,9 +53,9 @@ exports.verifyToken = function (req, res, next) { return __awaiter(void 0, void 
         switch (_b.label) {
             case 0:
                 bearerHeader = req.headers["authorization"] != null
-                    ? req.headers["authorization"] != null
+                    ? req.headers["authorization"]
                     : req.body.token;
-                if (!(typeof bearerHeader !== "string")) return [3 /*break*/, 5];
+                if (!(typeof bearerHeader === "string")) return [3 /*break*/, 5];
                 bearer = bearerHeader.split(" ");
                 bearerToken = bearer[1];
                 // Set the token in the request's body for conveinience
@@ -70,7 +70,7 @@ exports.verifyToken = function (req, res, next) { return __awaiter(void 0, void 
                 return [3 /*break*/, 4];
             case 3:
                 err_1 = _b.sent();
-                return [2 /*return*/, res.status(403).send("malformed token")];
+                return [2 /*return*/, res.status(403).send(err_1)];
             case 4: return [2 /*return*/, next()];
             case 5: 
             // Forbidden

@@ -3,7 +3,7 @@ import { expect } from "chai";
 import "mocha";
 
 // internal libraries
-import { sendConfirmationCode } from "../src/utils/coreFunctions";
+import { sendConfirmationCode } from "../utils/coreFunctions";
 
 
 describe("Send phone code", () => {

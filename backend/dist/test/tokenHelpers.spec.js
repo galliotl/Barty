@@ -36,46 +36,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var jwt = require("jsonwebtoken");
-var jwtSecretKey = process.env.SECRET_KEY;
-/**
- * This function takes in data and returns a jwt token (string)
- * associated to it
- * @param payload - data to tokenized
- * @param secretKey - optional secret key (for testing purposes)
- */
-exports.createToken = function (payload, secretKey) {
-    if (secretKey === void 0) { secretKey = jwtSecretKey; }
-    return __awaiter(void 0, void 0, void 0, function () {
+// external libraries
+var chai_1 = require("chai");
+require("mocha");
+// internal libraries
+var tokenHelpers_1 = require("../utils/tokenHelpers");
+describe("Create token function", function () {
+    it("should return a string", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
         return __generator(this, function (_a) {
-            return [2 /*return*/, new Promise(function (resolve, reject) { return __awaiter(void 0, void 0, void 0, function () {
-                    return __generator(this, function (_a) {
-                        jwt.sign(payload, secretKey, function (err, token) {
-                            if (err)
-                                reject(err);
-                            resolve(token);
-                        });
-                        return [2 /*return*/];
-                    });
-                }); })];
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, tokenHelpers_1.createToken("test", "testKey")];
+                case 1:
+                    result = _a.sent();
+                    chai_1.expect(result).to.be.a("string");
+                    return [2 /*return*/];
+            }
         });
-    });
-};
-/**
- * This function takes in a jwt token and returns associated data
- * @param token - the string token to get data from
- * @param secretKey - optional secret key (for testing purposes)
- */
-exports.getTokenData = function (token, secretKey) {
-    if (secretKey === void 0) { secretKey = jwtSecretKey; }
-    return __awaiter(void 0, void 0, void 0, function () {
+    }); });
+});
+describe("Get Token data function", function () {
+    it("should return the same value it was fed", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var secretKey, testValue, token, data;
         return __generator(this, function (_a) {
-            return [2 /*return*/, jwt.verify(token, secretKey, function (err, data) {
-                    if (err)
-                        throw err;
-                    else
-                        return data;
-                })];
+            switch (_a.label) {
+                case 0:
+                    secretKey = "secretKey";
+                    testValue = "test";
+                    return [4 /*yield*/, tokenHelpers_1.createToken(testValue, secretKey)];
+                case 1:
+                    token = _a.sent();
+                    return [4 /*yield*/, tokenHelpers_1.getTokenData(token, secretKey)];
+                case 2:
+                    data = _a.sent();
+                    chai_1.expect(data).to.equal(testValue);
+                    return [2 /*return*/];
+            }
         });
-    });
-};
+    }); });
+});
