@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  auth:
+  api:
     build: .
     ports:
       - 8000:3000

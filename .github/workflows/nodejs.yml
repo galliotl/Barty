@@ -27,3 +27,4 @@ jobs:
         working-directory: ./backend
         env:
           CI: true
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
