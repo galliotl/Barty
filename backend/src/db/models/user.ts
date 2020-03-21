@@ -8,18 +8,18 @@ export interface User extends mongoose.Document {
 }
 
 const userSchema = new mongoose.Schema({
-  phone: { type: [String], unique: true, required: true, index: true },
+  phone: { type: String, unique: true, required: true, index: true },
   name: String,
   password: String,
   isMajor: {
-    type: [Boolean],
+    type: Boolean,
     validate: {
       validator: isMajor => isMajor,
       message: () => "User has to be major to signup to the website"
     }
   },
   isPhoneConfirmed: {
-    type: [Boolean],
+    type: Boolean,
     validate: {
       validator: isPhoneConfirmed => isPhoneConfirmed,
       message: () => "User has to be major to signup to the website"
