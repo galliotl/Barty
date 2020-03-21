@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "index.ts",
   "version": "1.0.0",
   "description": "backend expressJs server",
   "main": "dist/index.js",
@@ -30,5 +30,16 @@
     "nodemon": "^2.0.2",
     "ts-node": "^8.7.0",
     "typescript": "^3.7.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/galliotl/Barty.git"
+  },
+  "keywords": [
+    "Barty"
+  ],
+  "bugs": {
+    "url": "https://github.com/galliotl/Barty/issues"
+  },
+  "homepage": "https://github.com/galliotl/Barty#readme"
 }

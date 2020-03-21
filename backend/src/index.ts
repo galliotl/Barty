@@ -6,6 +6,7 @@ import * as mongoose from "mongoose";
 // internal libraries
 import auth from "./controllers/auth";
 import bars from "./controllers/bars";
+import test from "./controllers/test";
 import { verifyToken, verifyAuth } from "./middleware";
 
 const uri = "mongodb://db:27017/barty";
@@ -33,5 +34,7 @@ app.delete("/bars", verifyToken, verifyAuth, bars.deleteBarController);
 app.get("/bars", verifyToken, verifyAuth, bars.getBarController);
 app.post("/bars", verifyToken, verifyAuth, bars.createBarController)
 app.put("/bars", verifyToken, verifyAuth, bars.updateBarController);
+
+app.get("/test/token",verifyToken,test.testToken);
 
 app.listen(3000, () => console.log("running..."));
