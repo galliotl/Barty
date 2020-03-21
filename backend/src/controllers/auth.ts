@@ -111,7 +111,7 @@ const selfDataController = async (
   req: express.Request,
   res: express.Response
 ) => {
-  return req.body.user;
+  return res.status(200).send({ user: req.body.user });
 };
 
 export default {
