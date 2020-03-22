@@ -14,10 +14,10 @@ export interface Bar extends mongoose.Document {
 }
 
 const barSchema = new mongoose.Schema({
-  name: { type: [String], required: true, index: true },
-  phone: { type: [String], unique: true },
-  mail: { type: [String], unique: true },
-  address: { type: [String], unique: true },
+  name: { type: String, required: true, index: true },
+  phone: { type: String, unique: true },
+  mail: { type: String, unique: true },
+  address: { type: String, unique: true },
   photoUrl: String,
   openingHour: Number,
   closingHour: Number,
