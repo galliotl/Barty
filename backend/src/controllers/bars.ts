@@ -4,9 +4,8 @@ import * as bcrypt from "bcryptjs";
 
 // local libraries
 import Bar from "../db/models/bar";
-import * as AdressBar from "../db/models/adressBar";
+import * as AddressBar from "../db/models/addressBar";
 import { verifyMandatoryParams } from "../middleware";
-
 
 /**
  * Creates a bar
@@ -17,21 +16,22 @@ const createBarController = async (
   req: express.Request,
   res: express.Response
 ) => {
-  
-  let { name, password, photoUrl, adress, description, mail } = req.body;
+  let { name, password, phone, photoUrl, address, description, mail } = req.body;
 
+  //TODO uncomment beverages, openingHour and ClosingHour after creating beverages and times model
   if (
     !verifyMandatoryParams(
       [
         "name",
         "password",
         "photoUrl",
-        "adress",
+        "address",
+        "phone",
         //"events",
-        //"beverages",//TODO uncomment beverages, openingHour and ClosingHour after creating beverages and times model
+        //"beverages",
         "description",
         //"phone",
-        "mail"//,
+        "mail" //,
         //"openingHour",
         //"closingHour"
       ],
@@ -40,15 +40,21 @@ const createBarController = async (
   ) {
     return res.status(400).send("wrong params entered");
   }
-
-  const phone = req.body.tokenData;
   password = await bcrypt.hash(password, 10);
   try {
-    const bar = new Bar({ name, password, photoUrl, adress, phone, description, mail });
+    const bar = new Bar({
+      address,
+      description,
+      mail,
+      name,
+      password,
+      phone,
+      photoUrl
+    });
     await bar.save();
-    return res.status(200).json({ token: req.body.token, id: bar.id });
-  } catch {
-    return res.status(500).send("cannot create bar");
+    return res.status(200).json(bar);
+  } catch (err) {
+    return res.status(500).send(err);
   }
 };
 

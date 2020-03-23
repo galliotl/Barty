@@ -1,12 +1,12 @@
 import * as mongoose from "mongoose";
-import * as adressBar from "./adressBar";
+import * as addressBar from "./addressBar";
 
 
 export interface Bar extends mongoose.Document {
   name: string;
   password:string;
   photoUrl: string;
-  address: adressBar.AdressBar;
+  address: addressBar.AddressBar;
   events: object;
   beverages: object;
   description: string;
@@ -21,7 +21,7 @@ const barSchema = new mongoose.Schema({
   password:{type: String, required:true},
   phone: { type: String, unique: true },
   mail: { type: String, unique: true },
-  address: { type: adressBar, unique: true },
+  address: { type: addressBar, unique: true },
   photoUrl: String,
   openingHour: Number,
   closingHour: Number,

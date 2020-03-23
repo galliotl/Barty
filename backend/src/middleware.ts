@@ -58,7 +58,6 @@ export const verifyAuth = async (
   const tokenData = req.body.tokenData;
   try {
     const user = await User.findOne({ phone: tokenData });
-    console.log(user);
     if (!user) return res.status(403).send("user doesn't exist");
     else {
       req.body.user = user;
