@@ -1,8 +1,10 @@
 // external libraries
 import * as express from "express";
+import * as bcrypt from "bcryptjs";
 
 // local libraries
 import Bar from "../db/models/bar";
+import * as AddressBar from "../db/models/addressBar";
 import { verifyMandatoryParams } from "../middleware";
 
 /**
@@ -14,37 +16,50 @@ const createBarController = async (
   req: express.Request,
   res: express.Response
 ) => {
+  let { name, password, phone, photoUrl, address, description, mail } = req.body;
+
+  //TODO uncomment beverages, openingHour and ClosingHour after creating beverages and times model
   if (
     !verifyMandatoryParams(
       [
         "name",
+        "password",
         "photoUrl",
         "address",
-        "events",
-        "beverages",
-        "description",
         "phone",
-        "mail",
-        "openingHour",
-        "closingHour"
+        //"events",
+        //"beverages",
+        "description",
+        //"phone",
+        "mail" //,
+        //"openingHour",
+        //"closingHour"
       ],
       req.body
     )
   ) {
     return res.status(400).send("wrong params entered");
   }
-
+  password = await bcrypt.hash(password, 10);
   try {
-    const bar = new Bar(req.body);
+    const bar = new Bar({
+      address,
+      description,
+      mail,
+      name,
+      password,
+      phone,
+      photoUrl
+    });
     await bar.save();
-    return res.status(200).send({ id: bar.id });
-  } catch {
-    return res.status(500).send("cannot create bar");
+    return res.status(200).json(bar);
+  } catch (err) {
+    return res.status(500).send(err);
   }
 };
 
 /**
- * Takes the given id and removes the associated bar
+ * Takes the given id and return the associated bar
  */
 const getBarController = async (
   req: express.Request,
