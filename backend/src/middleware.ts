@@ -22,7 +22,6 @@ export const verifyToken = async (
     req.headers["authorization"] != null
       ? req.headers["authorization"]
       : req.body.token;
-
   if (typeof bearerHeader === "string") {
     const bearer = bearerHeader.split(" ");
     const bearerToken = bearer[1];
@@ -78,10 +77,10 @@ export const verifyMandatoryParams = (
   mandatoryParams: Array<string>,
   body: any
 ): Boolean => {
-  mandatoryParams.forEach(param => {
+  for(const param of mandatoryParams) {
     if (!body[param]) {
       return false;
     }
-  });
+  }
   return true;
 };
