@@ -22,6 +22,7 @@ const createBarController = async (
   let { name, password, photoUrl, address, phone, mail, description, openingHour, closingHour } = req.body;
 
   //TODO uncomment beverages after creating and implementing the corresponding model
+
   if (
     !verifyMandatoryParams(
       [
