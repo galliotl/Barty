@@ -50,7 +50,7 @@ const createBarController = async (
       mail, 
       description,
       openingHour,
-      closingHour
+      closingHour,
     });
     await bar.save();
     return res.status(200).json(bar);
