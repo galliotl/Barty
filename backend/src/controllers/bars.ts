@@ -5,6 +5,7 @@ import * as bcrypt from "bcryptjs";
 // local libraries
 import Bar from "../db/models/bar";
 import * as AddressBar from "../db/models/addressBar";
+import * as Time from "../db/models/time";
 import { verifyMandatoryParams } from "../middleware";
 
 /**
@@ -16,9 +17,9 @@ const createBarController = async (
   req: express.Request,
   res: express.Response
 ) => {
-  let { name, password, phone, photoUrl, address, description, mail } = req.body;
+  let { name, password, photoUrl, address, phone, mail, description, openingHour, closingHour } = req.body;
 
-  //TODO uncomment beverages, openingHour and ClosingHour after creating beverages and times model
+  //TODO uncomment beverages after creating the model
   if (
     !verifyMandatoryParams(
       [
@@ -27,13 +28,11 @@ const createBarController = async (
         "photoUrl",
         "address",
         "phone",
-        //"events",
-        //"beverages",
+        "mail",
         "description",
-        //"phone",
-        "mail" //,
-        //"openingHour",
-        //"closingHour"
+        "openingHour",
+        "closingHour"//,
+        //"beverages"
       ],
       req.body
     )
@@ -43,13 +42,15 @@ const createBarController = async (
   password = await bcrypt.hash(password, 10);
   try {
     const bar = new Bar({
-      address,
-      description,
-      mail,
       name,
       password,
+      photoUrl,
+      address,
       phone,
-      photoUrl
+      mail, 
+      description,
+      openingHour,
+      closingHour
     });
     await bar.save();
     return res.status(200).json(bar);
