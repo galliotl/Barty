@@ -1,6 +1,5 @@
 // external libraries
 import * as express from "express";
-import * as bcrypt from "bcryptjs";
 import * as mongoose from "mongoose";
 
 // internal libraries
@@ -29,9 +28,11 @@ app.post("/users/signup/phone", auth.signupPhoneController);
 /**
  * Bar routes
  */
-app.delete("/bars", verifyToken, verifyAuth, bars.deleteBarController);
-app.get("/bars", verifyToken, verifyAuth, bars.getBarController);
-app.post("/bars", verifyToken, verifyAuth, bars.createBarController)
-app.put("/bars", verifyToken, verifyAuth, bars.updateBarController);
+app
+  .route("/bars")
+  .delete(verifyToken, verifyAuth, bars.deleteBarController)
+  .get(verifyToken, verifyAuth, bars.getBarController)
+  .post(verifyToken, verifyAuth, bars.createBarController)
+  .put(verifyToken, verifyAuth, bars.updateBarController);
 
 app.listen(3000, () => console.log("running..."));

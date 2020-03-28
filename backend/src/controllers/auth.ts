@@ -1,11 +1,12 @@
 // external dependencies
-import * as express from "express";
+import { Request, Response } from "express";
 import * as bcrypt from "bcryptjs";
 
 // local
 import { sendConfirmationCode } from "../utils/coreFunctions";
 import { createToken } from "../utils/tokenHelpers";
 import User from "../db/models/user";
+import { verifyMandatoryParams } from "../middleware";
 
 /**
  * This route is used for the app to send the phone number.
@@ -15,10 +16,7 @@ import User from "../db/models/user";
  * - send this same code back to the app so the app can confirm the phone number or not
  * - also send a signup token so the app can send all the information at the end of the signup
  */
-const signupPhoneController = async (
-  req: express.Request,
-  res: express.Response
-) => {
+const signupPhoneController = async (req: Request, res: Response) => {
   const phone = req.body.phone;
   if (!phone) return res.status(422).send("phone isn't filled");
 
@@ -52,14 +50,16 @@ const signupPhoneController = async (
  * The token is used because it proves that the phone
  * was already verified before
  */
-const userSignupController = async (
-  req: express.Request,
-  res: express.Response
-) => {
+const userSignupController = async (req: Request, res: Response) => {
   let { password, name, isMajor, isPhoneConfirmed } = req.body;
 
-  if (!password || !name || !isMajor || !isPhoneConfirmed) {
-    return res.status(422).send("wrong params sent to input");
+  if (
+    !verifyMandatoryParams(
+      ["phone", "password", "name", "isMajor", "isPhoneConfirmed"],
+      req.body
+    )
+  ) {
+    return res.status(400).send("wrong params sent to input");
   }
 
   const phone = req.body.tokenData;
@@ -71,32 +71,28 @@ const userSignupController = async (
   } catch {
     return res.status(500).send("Cannot save the user");
   }
-  try {
-    // we return the same token as a login token to the app
-    return res.json({ token: req.body.token });
-  } catch {
-    return res.status(500).send("cannot create token");
-  }
+  return res.status(200).json({ token: req.body.token });
 };
 
 /**
  * This route gets user data and sends back a jwt token.
  * This token will have to be used in every requests.
  */
-const loginController = async (req: express.Request, res: express.Response) => {
+const loginController = async (req: Request, res: Response) => {
   const { phone, password } = req.body;
   // verify user is correctly filled
-  if (!phone || !password)
-    return res.status(422).send("user isn't filled properly");
+  if (!verifyMandatoryParams(["phone", "password"], req.body)) {
+    return res.status(400).send("missing mandatory parameter");
+  }
 
-  const dbUser = await User.findOne({ phone: phone });
+  const dbUser = await User.findOne({ phone });
 
   if (!dbUser) return res.status(422).send("No user have this phone");
 
   if (await bcrypt.compare(password, dbUser.password)) {
     try {
-      const token = await createToken(phone);
-      return res.json({ token });
+      //const token = await createToken(phone);
+      return res.status(200).json({ token: "test" });
     } catch (err) {
       return res.status(500).send(err);
     }
@@ -107,10 +103,7 @@ const loginController = async (req: express.Request, res: express.Response) => {
  * This route is used to fetch the user's own data. All the work is done
  * by the middlewares, we just have to send the data back
  */
-const selfDataController = async (
-  req: express.Request,
-  res: express.Response
-) => {
+const selfDataController = async (req: Request, res: Response) => {
   return res.status(200).send({ user: req.body.user });
 };
 
