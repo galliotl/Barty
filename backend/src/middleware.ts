@@ -4,7 +4,9 @@ import { Request, Response, NextFunction } from "express";
 // local libs
 import User from "./db/models/user";
 import Bar from "./db/models/bar";
+import {verifyRegexPhone} from "./db/models/regex";
 import { getTokenData } from "./utils/tokenHelpers";
+import bar from "./db/models/bar";
 
 /**
  * This middleware function verifies the presence of a
@@ -91,6 +93,25 @@ export const verifyAuthBar = async (
   }
 };
 
+export const verifyBarParameters = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const bar = req.body;
+    if (!bar) return res.status(403).send("bar doesn't exist");
+    const phone = bar.phone;
+    if(!verifyRegexPhone(phone)) return res.status(403).send("this is not a phone number");
+    else {
+      req.body.bar = bar;
+      return next();
+    }
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+};
+
 /**
  * This function verifies the presence of some mandatory
  * parameters in the request and returns an error otherwise
@@ -108,3 +129,4 @@ export const verifyMandatoryParams = (
   }
   return true;
 };
+
