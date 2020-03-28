@@ -22,7 +22,6 @@ export const verifyToken = async (
     req.headers["authorization"] != null
       ? req.headers["authorization"]
       : req.body.token;
-
   if (typeof bearerHeader === "string") {
     const bearer = bearerHeader.split(" ");
     const bearerToken = bearer[1];
@@ -58,7 +57,6 @@ export const verifyAuth = async (
   const tokenData = req.body.tokenData;
   try {
     const user = await User.findOne({ phone: tokenData });
-    console.log(user);
     if (!user) return res.status(403).send("user doesn't exist");
     else {
       req.body.user = user;
@@ -79,10 +77,10 @@ export const verifyMandatoryParams = (
   mandatoryParams: Array<string>,
   body: any
 ): Boolean => {
-  mandatoryParams.forEach(param => {
+  for(const param of mandatoryParams) {
     if (!body[param]) {
       return false;
     }
-  });
+  }
   return true;
 };
