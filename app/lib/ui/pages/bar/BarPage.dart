@@ -77,7 +77,7 @@ class _BarPageState extends State<BarPage> with SingleTickerProviderStateMixin {
               textAlign: TextAlign.center,
             ),
 
-            // Adress and time
+            // Address and time
             Padding(
               padding: EdgeInsets.fromLTRB(15, 30, 15, 0),
               child: Text(
