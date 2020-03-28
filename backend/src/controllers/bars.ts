@@ -19,7 +19,7 @@ const createBarController = async (
 ) => {
   let { name, password, photoUrl, address, phone, mail, description, openingHour, closingHour } = req.body;
 
-  //TODO uncomment beverages, openingHour and ClosingHour after creating beverages and times model
+  //TODO uncomment beverages after creating the model
   if (
     !verifyMandatoryParams(
       [
@@ -32,8 +32,7 @@ const createBarController = async (
         "description",
         "openingHour",
         "closingHour"//,
-        //"beverages",
-        //"events"
+        //"beverages"
       ],
       req.body
     )
