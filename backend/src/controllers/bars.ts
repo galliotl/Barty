@@ -1,6 +1,8 @@
 // external libraries
 import * as express from "express";
 import * as bcrypt from "bcryptjs";
+import { createToken } from "../utils/tokenHelpers";
+
 
 // local libraries
 import Bar from "../db/models/bar";
@@ -19,7 +21,7 @@ const createBarController = async (
 ) => {
   let { name, password, photoUrl, address, phone, mail, description, openingHour, closingHour } = req.body;
 
-  //TODO uncomment beverages after creating the model
+  //TODO uncomment beverages after creating and implementing the corresponding model
   if (
     !verifyMandatoryParams(
       [
@@ -53,7 +55,13 @@ const createBarController = async (
       closingHour
     });
     await bar.save();
-    return res.status(200).json(bar);
+    //TODO Check if the bar already exists
+    //TODO implement a way to verify email
+    //Create the token from the mail
+    const token = await createToken(bar.mail);
+    const id = bar.id;
+    //Return the id and the token
+    return res.status(200).json({ id , token});
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -66,6 +74,7 @@ const getBarController = async (
   req: express.Request,
   res: express.Response
 ) => {
+  //let { id } = req.body;
   const { id } = req.query;
   if (!verifyMandatoryParams(["id"], req.query)) {
     return res.status(422).send("missing mandatory params");
