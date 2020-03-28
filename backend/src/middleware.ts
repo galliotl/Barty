@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 
 // local libs
 import User from "./db/models/user";
+import Bar from "./db/models/bar";
 import { getTokenData } from "./utils/tokenHelpers";
 
 /**
@@ -60,6 +61,29 @@ export const verifyAuth = async (
     if (!user) return res.status(403).send("user doesn't exist");
     else {
       req.body.user = user;
+      return next();
+    }
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+};
+
+/**
+ * Exactly the same function but for the bars
+ * Actually the difference is that the token comes from the email instead of phone
+ */
+export const verifyAuthBar = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  // Set here by previous middleware
+  const tokenData = req.body.tokenData;
+  try {
+    const bar = await Bar.findOne({ mail: tokenData });
+    if (!bar) return res.status(403).send("bar doesn't exist");
+    else {
+      req.body.bar = bar;
       return next();
     }
   } catch (err) {
