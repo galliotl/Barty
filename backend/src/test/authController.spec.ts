@@ -94,7 +94,6 @@ describe("Test Signup controller", async () => {
   it("Should return 400 when a param is missing", async () => {
     const req = mockRequest({
       body: {
-        password: fakePassword,
         name: "testName",
         isMajor: true,
         isPhoneConfirmed: true
