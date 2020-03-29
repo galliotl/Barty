@@ -7,6 +7,7 @@ import { createToken } from "../utils/tokenHelpers";
 import { sendConfirmationCode } from "../utils/coreFunctions";
 import { verifyMandatoryParams } from "../middleware";
 import User from "../db/models/user";
+import { verifyRegexPhone } from "../utils/regex";
 
 /**
  * This route is used for the app to send the phone number.
@@ -20,6 +21,8 @@ import User from "../db/models/user";
 const signupPhoneController = async (req: Request, res: Response) => {
   const phone = req.body.phone;
   if (!phone) return res.status(400).send("phone isn't filled");
+  //Check if the phone does correspond to the pohone regex
+  if(!verifyRegexPhone(phone)) return res.status(400).send("this is not a phone number");
 
   try {
     const confirmationCode = sendConfirmationCode(phone);

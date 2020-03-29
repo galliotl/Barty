@@ -5,7 +5,7 @@ import * as mongoose from "mongoose";
 // internal libraries
 import auth from "./controllers/auth";
 import bars from "./controllers/bars";
-import { verifyToken, verifyAuth, verifyAuthBar } from "./middleware";
+import { verifyToken, verifyAuth, verifyAuthBar, verifyBarParameters } from "./middleware";
 
 const uri = "mongodb://db:27017/barty";
 mongoose.connect(uri, {
@@ -32,7 +32,7 @@ app
   .route("/bars")
   .delete(verifyToken, verifyAuthBar, bars.deleteBarController) 
   .get(verifyToken, verifyAuthBar, bars.getBarController) //Check if works
-  .post(verifyToken, bars.createBarController)
+  .post(verifyBarParameters , bars.createBarController)
   .put(verifyToken, verifyAuthBar, bars.updateBarController); //Check if works
 
 app.listen(3000, () => console.log("running..."));
