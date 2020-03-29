@@ -76,12 +76,12 @@ const getBarController = async (
   res: express.Response
 ) => {
   //let { id } = req.body;
-  const { id } = req.query;
-  if (!verifyMandatoryParams(["id"], req.query)) {
+  const { id } = req.body;
+  if (!verifyMandatoryParams(["id"], req.body)) {
     return res.status(422).send("missing mandatory params");
   }
   try {
-    const bar = Bar.findById(id);
+    const bar = await Bar.findById(id);
     return res.status(200).send({ bar: bar });
   } catch {
     return res.status(500).send("couldn't retreive this bar");
