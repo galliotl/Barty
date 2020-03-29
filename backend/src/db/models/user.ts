@@ -24,9 +24,7 @@ const userSchema = new mongoose.Schema({
       validator: isPhoneConfirmed => isPhoneConfirmed,
       message: () => "User has to be major to signup to the website"
     }
-  },
-  created_at: {type: Date, required: true, default: Date.now},
-  updated_at: {type: Date, required: true, default: Date.now}
-});
+  }
+},{timestamps: true});
 
 export default mongoose.model<User>("User", userSchema);

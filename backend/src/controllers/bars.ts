@@ -117,7 +117,7 @@ const updateBarController = async (
   const { id } = req.body;
   delete req.body.id;
   try {
-    const bar = await Bar.findByIdAndUpdate(id, {updated_at:Date.now()});
+    const bar = await Bar.findById(id);
     bar.update(req.body);
     bar.save();
     return res.status(200).send({ newBar: bar.toJSON() });
