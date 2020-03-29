@@ -5,12 +5,12 @@
  * @param category
  */
 export const verifyBeverageCategory = (category: string): Boolean => {
-    let arrayOfBeveragesCategories: [string];
-    arrayOfBeveragesCategories.push('beer');
+    let arrayOfBeveragesCategories: string[] = ['beer', 'cocktail', 'soft', 'wine', 'hard']; 
+    /*arrayOfBeveragesCategories.push('beer');
     arrayOfBeveragesCategories.push('cocktail');
     arrayOfBeveragesCategories.push('soft');
     arrayOfBeveragesCategories.push('wine');
-    arrayOfBeveragesCategories.push('hard');
+    arrayOfBeveragesCategories.push('hard');*/
     if (arrayOfBeveragesCategories.some(x=> x == category)) {
       return true;
     }
