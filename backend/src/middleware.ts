@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 // local libs
 import User from "./db/models/user";
 import Bar from "./db/models/bar";
-import {verifyRegexPhone, verifyRegexMail} from "./db/models/regex";
+import {verifyRegexPhone, verifyRegexMail} from "./utils/regex";
 import { getTokenData } from "./utils/tokenHelpers";
 import bar from "./db/models/bar";
 

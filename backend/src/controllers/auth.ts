@@ -7,7 +7,7 @@ import { sendConfirmationCode } from "../utils/coreFunctions";
 import { createToken } from "../utils/tokenHelpers";
 import User from "../db/models/user";
 import { verifyMandatoryParams } from "../middleware";
-import {verifyRegexPhone} from "../db/models/regex";
+import {verifyRegexPhone} from "../utils/regex";
 
 /**
  * This route is used for the app to send the phone number.

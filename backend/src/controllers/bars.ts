@@ -8,7 +8,7 @@ import { createToken } from "../utils/tokenHelpers";
 import Bar from "../db/models/bar";
 import * as AddressBar from "../db/models/addressBar";
 import * as Time from "../db/models/time";
-import * as Regex from "../db/models/regex";
+import * as Regex from "../utils/regex";
 import { verifyMandatoryParams } from "../middleware";
 
 /**
