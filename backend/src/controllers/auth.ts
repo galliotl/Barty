@@ -3,10 +3,10 @@ import { Request, Response } from "express";
 import * as bcrypt from "bcryptjs";
 
 // local
-import { sendConfirmationCode } from "../utils/coreFunctions";
 import { createToken } from "../utils/tokenHelpers";
-import User from "../db/models/user";
+import { sendConfirmationCode } from "../utils/coreFunctions";
 import { verifyMandatoryParams } from "../middleware";
+import User from "../db/models/user";
 
 /**
  * This route is used for the app to send the phone number.
@@ -19,7 +19,7 @@ import { verifyMandatoryParams } from "../middleware";
  */
 const signupPhoneController = async (req: Request, res: Response) => {
   const phone = req.body.phone;
-  if (!phone) return res.status(422).send("phone isn't filled");
+  if (!phone) return res.status(400).send("phone isn't filled");
 
   try {
     const confirmationCode = sendConfirmationCode(phone);
@@ -72,7 +72,7 @@ const userSignupController = async (req: Request, res: Response) => {
       name,
       password
     });
-    const token = createToken(user.id);
+    const token = await createToken(user.id);
     return res.status(200).json({ token });
   } catch (err) {
     return res.status(500).send(err);
@@ -90,14 +90,14 @@ const loginController = async (req: Request, res: Response) => {
     return res.status(400).send("missing mandatory parameter");
   }
 
-  const dbUser = await User.findOne({ phone });
+  const user = await User.findOne({ phone });
 
-  if (!dbUser) return res.status(422).send("No user have this phone");
+  if (!user) return res.status(422).send("No user have this phone");
 
-  if (await bcrypt.compare(password, dbUser.password)) {
+  if (await bcrypt.compare(password, user.password)) {
     try {
-      //const token = await createToken(phone);
-      return res.status(200).json({ token: "test" });
+      const token = await createToken(user.id);
+      return res.status(200).json({ token });
     } catch (err) {
       return res.status(500).send(err);
     }
