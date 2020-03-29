@@ -76,8 +76,8 @@ const getBarController = async (
   res: express.Response
 ) => {
   //let { id } = req.body;
-  const { id } = req.body;
-  if (!verifyMandatoryParams(["id"], req.body)) {
+  const { id } = req.query;
+  if (!verifyMandatoryParams(["id"], req.query)) {
     return res.status(422).send("missing mandatory params");
   }
   try {
