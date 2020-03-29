@@ -32,7 +32,7 @@ app
   .route("/bars")
   .delete(verifyToken, verifyAuthBar, bars.deleteBarController) 
   .get(verifyToken, verifyAuthBar, bars.getBarController) //Check if works
-  .post(bars.createBarController)
+  .post(verifyToken, bars.createBarController)
   .put(verifyToken, verifyAuthBar, bars.updateBarController); //Check if works
 
 app.listen(3000, () => console.log("running..."));

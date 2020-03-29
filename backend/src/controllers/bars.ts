@@ -81,7 +81,7 @@ const getBarController = async (
     return res.status(422).send("missing mandatory params");
   }
   try {
-    const bar = Bar.findById(id);
+    const bar = await Bar.findById(id);
     return res.status(200).send({ bar: bar });
   } catch {
     return res.status(500).send("couldn't retreive this bar");
