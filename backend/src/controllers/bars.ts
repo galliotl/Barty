@@ -1,14 +1,10 @@
 // external libraries
 import * as express from "express";
 import * as bcrypt from "bcryptjs";
-import { createToken } from "../utils/tokenHelpers";
-
 
 // local libraries
 import Bar from "../db/models/bar";
 import * as AddressBar from "../db/models/addressBar";
-import * as Time from "../db/models/time";
-import * as Regex from "../utils/regex";
 import { verifyMandatoryParams } from "../middleware";
 
 /**
@@ -20,10 +16,17 @@ const createBarController = async (
   req: express.Request,
   res: express.Response
 ) => {
-  let { name, password, photoUrl, address, phone, mail, description, openingHour, closingHour } = req.body;
+  let {
+    name,
+    password,
+    phone,
+    photoUrl,
+    address,
+    description,
+    mail
+  } = req.body;
 
-  //TODO uncomment beverages after creating and implementing the corresponding model
-
+  //TODO uncomment beverages, openingHour and ClosingHour after creating beverages and times model
   if (
     !verifyMandatoryParams(
       [
@@ -32,11 +35,13 @@ const createBarController = async (
         "photoUrl",
         "address",
         "phone",
-        "mail",
+        //"events",
+        //"beverages",
         "description",
-        "openingHour",
-        "closingHour"//,
-        //"beverages"
+        //"phone",
+        "mail" //,
+        //"openingHour",
+        //"closingHour"
       ],
       req.body
     )
@@ -46,24 +51,16 @@ const createBarController = async (
   password = await bcrypt.hash(password, 10);
   try {
     const bar = new Bar({
+      address,
+      description,
+      mail,
       name,
       password,
-      photoUrl,
-      address,
       phone,
-      mail, 
-      description,
-      openingHour,
-      closingHour
+      photoUrl
     });
     await bar.save();
-    //TODO Check if the bar already exists
-    //TODO implement a way to verify email
-    //Create the token from the mail
-    const token = await createToken(bar.mail);
-    const id = bar.id;
-    //Return the id and the token
-    return res.status(200).json({ id , token});
+    return res.status(200).json(bar);
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -76,16 +73,16 @@ const getBarController = async (
   req: express.Request,
   res: express.Response
 ) => {
-  //let { id } = req.body;
   const { id } = req.query;
   if (!verifyMandatoryParams(["id"], req.query)) {
     return res.status(422).send("missing mandatory params");
   }
   try {
     const bar = await Bar.findById(id);
-    return res.status(200).send({ bar: bar });
-  } catch {
-    return res.status(500).send("couldn't retreive this bar");
+    if (bar) return res.status(200).send({ bar });
+    else return res.status(422).send("This bar doesn't exist");
+  } catch (err) {
+    return res.status(500).send(err);
   }
 };
 
