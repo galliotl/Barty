@@ -7,6 +7,7 @@ import { sendConfirmationCode } from "../utils/coreFunctions";
 import { createToken } from "../utils/tokenHelpers";
 import User from "../db/models/user";
 import { verifyMandatoryParams } from "../middleware";
+import {verifyRegexPhone} from "../db/models/regex";
 
 /**
  * This route is used for the app to send the phone number.
@@ -19,7 +20,8 @@ import { verifyMandatoryParams } from "../middleware";
 const signupPhoneController = async (req: Request, res: Response) => {
   const phone = req.body.phone;
   if (!phone) return res.status(422).send("phone isn't filled");
-
+  //Check if the phone does correspond to the pohone regex
+  if(!verifyRegexPhone(phone)) return res.status(422).send("this is not a phone number");
   // Ask the db about the user
   const user = await User.findOne({
     phone

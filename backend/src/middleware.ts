@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 // local libs
 import User from "./db/models/user";
 import Bar from "./db/models/bar";
-import {verifyRegexPhone} from "./db/models/regex";
+import {verifyRegexPhone, verifyRegexMail} from "./db/models/regex";
 import { getTokenData } from "./utils/tokenHelpers";
 import bar from "./db/models/bar";
 
@@ -93,6 +93,12 @@ export const verifyAuthBar = async (
   }
 };
 
+/**
+ * This middleware verify if the different paramerters required for a bar creation coorespond to their regex
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 export const verifyBarParameters = async (
   req: Request,
   res: Response,
@@ -103,6 +109,8 @@ export const verifyBarParameters = async (
     if (!bar) return res.status(403).send("bar doesn't exist");
     const phone = bar.phone;
     if(!verifyRegexPhone(phone)) return res.status(403).send("this is not a phone number");
+    const mail = bar.mail;
+    if(!verifyRegexMail(mail)) return res.status(403).send("this is not a mail address");
     else {
       req.body.bar = bar;
       return next();
