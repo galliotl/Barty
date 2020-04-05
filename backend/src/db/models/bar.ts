@@ -1,6 +1,7 @@
 import * as mongoose from "mongoose";
 import * as addressBar from "./addressBar";
 import * as time from "./time";
+import * as beverage from "./beverage";
 
 
 export interface Bar extends mongoose.Document {
@@ -13,8 +14,8 @@ export interface Bar extends mongoose.Document {
   description: string;
   openingHour: time.Time;
   closingHour: time.Time;
-  beverages: object;
-  events: object;
+  beverages: [beverage.Beverage];
+  events: [object];
   created_at: Date;
   updated_at: Date;
 }
@@ -29,8 +30,8 @@ const barSchema = new mongoose.Schema({
   description: String,
   openingHour: {type: time, required:true},
   closingHour: {type: time, required:true},
-  beverages: Object,
-  events: Object,
+  beverages: {type: Array, required:false, default:[]},
+  events: [Object],
   created_at: {type: Date, required: true, default: Date.now},
   updated_at: {type: Date, required: true, default: Date.now}
 });
