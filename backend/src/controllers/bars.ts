@@ -1,14 +1,13 @@
 // external libraries
 import * as express from "express";
 import * as bcrypt from "bcryptjs";
-import { createToken } from "../utils/tokenHelpers";
-
 
 // local libraries
 import Bar from "../db/models/bar";
 import { verifyMandatoryParams } from "../middleware";
 import {verifyBeverageCategory} from '../utils/barFunctions';
 import * as beverage from "../db/models/beverage";
+import { createToken } from "../utils/tokenHelpers";
 
 
 /**
@@ -33,7 +32,8 @@ const createBarController = async (
         "mail",
         "description",
         "openingHour",
-        "closingHour"      
+        "closingHour",
+        "beverages"      
       ],
       req.body
     )
@@ -90,16 +90,16 @@ const getBarController = async (
   req: express.Request,
   res: express.Response
 ) => {
-  //let { id } = req.body;
   const { id } = req.query;
   if (!verifyMandatoryParams(["id"], req.query)) {
     return res.status(422).send("missing mandatory params");
   }
   try {
     const bar = await Bar.findById(id);
-    return res.status(200).send({ bar: bar });
-  } catch {
-    return res.status(500).send("couldn't retreive this bar");
+    if (bar) return res.status(200).send({ bar });
+    else return res.status(422).send("This bar doesn't exist");
+  } catch (err) {
+    return res.status(500).send(err);
   }
 };
 
