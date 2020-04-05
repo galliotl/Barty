@@ -1,11 +1,10 @@
 // external libraries
 import * as express from "express";
 import * as bcrypt from "bcryptjs";
-import { createToken } from "../utils/tokenHelpers";
-
 
 // local libraries
 import Bar from "../db/models/bar";
+import * as AddressBar from "../db/models/addressBar";
 import { verifyMandatoryParams } from "../middleware";
 import {verifyBeverageCategory} from '../utils/barFunctions';
 import * as beverage from "../db/models/beverage";
@@ -20,8 +19,11 @@ const createBarController = async (
   req: express.Request,
   res: express.Response
 ) => {
+
   let { name, password, photoUrl, address, phone, mail, description, openingHour, closingHour, beverages } = req.body;
 
+
+  //TODO uncomment beverages, openingHour and ClosingHour after creating beverages and times model
   if (
     !verifyMandatoryParams(
       [
@@ -30,16 +32,24 @@ const createBarController = async (
         "photoUrl",
         "address",
         "phone",
-        "mail",
-        "description",
+        //"events",
+        //"beverages",
+
         "openingHour",
         "closingHour"      
+
+        //"phone",
+        "mail" //,
+        //"openingHour",
+        //"closingHour"
+
       ],
       req.body
     )
   ) {
     return res.status(400).send("wrong params entered");
   }
+
   //check if the beverages categories does exist
   let shouldContinue = true;
   if(req.body.beverages != undefined){
@@ -50,6 +60,7 @@ const createBarController = async (
         return res.status(400).send("this beverage category doesn't exist");
       }
     });
+
   }
   if(shouldContinue){
     //hash the password
@@ -90,16 +101,16 @@ const getBarController = async (
   req: express.Request,
   res: express.Response
 ) => {
-  //let { id } = req.body;
   const { id } = req.query;
   if (!verifyMandatoryParams(["id"], req.query)) {
     return res.status(422).send("missing mandatory params");
   }
   try {
     const bar = await Bar.findById(id);
-    return res.status(200).send({ bar: bar });
-  } catch {
-    return res.status(500).send("couldn't retreive this bar");
+    if (bar) return res.status(200).send({ bar });
+    else return res.status(422).send("This bar doesn't exist");
+  } catch (err) {
+    return res.status(500).send(err);
   }
 };
 

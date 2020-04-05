@@ -59,7 +59,7 @@ export const verifyAuth = async (
   // Set here by previous middleware
   const tokenData = req.body.tokenData;
   try {
-    const user = await User.findOne({ phone: tokenData });
+    const user = await User.findById(tokenData);
     if (!user) return res.status(403).send("user doesn't exist");
     else {
       req.body.user = user;
