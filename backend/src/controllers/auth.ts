@@ -3,37 +3,33 @@ import { Request, Response } from "express";
 import * as bcrypt from "bcryptjs";
 
 // local
-import { sendConfirmationCode } from "../utils/coreFunctions";
 import { createToken } from "../utils/tokenHelpers";
-import User from "../db/models/user";
+import { sendConfirmationCode } from "../utils/coreFunctions";
 import { verifyMandatoryParams } from "../middleware";
+import User from "../db/models/user";
+import { verifyRegexPhone } from "../utils/regex";
 
 /**
  * This route is used for the app to send the phone number.
  * We have to:
  * - verify that this user isn't already signed up
+ * - add the phone to the db
  * - send a 4 digit code via SMS (v2)
  * - send this same code back to the app so the app can confirm the phone number or not
  * - also send a signup token so the app can send all the information at the end of the signup
  */
 const signupPhoneController = async (req: Request, res: Response) => {
   const phone = req.body.phone;
-  if (!phone) return res.status(422).send("phone isn't filled");
+  if (!phone) return res.status(400).send("phone isn't filled");
+  //Check if the phone does correspond to the pohone regex
+  if(!verifyRegexPhone(phone)) return res.status(400).send("this is not a phone number");
 
-  // Ask the db about the user
-  const user = await User.findOne({
-    phone
-  }).exec();
-
-  // The user already exists
-  if (user) return res.status(422).send("user already exists");
-
-  const confirmationCode = sendConfirmationCode(phone);
-
-  // create the signup token
   try {
+    const confirmationCode = sendConfirmationCode(phone);
     const token = await createToken(phone);
-    return res.json({
+    const user = new User({ phone, confirmationCode });
+    await user.save();
+    return res.status(200).json({
       token,
       confirmationCode
     });
@@ -48,30 +44,42 @@ const signupPhoneController = async (req: Request, res: Response) => {
  * and token from the token we deduce the phone.
  *
  * The token is used because it proves that the phone
- * was already verified before
+ * was already verified before. The new token is based on the
+ * user's id
  */
 const userSignupController = async (req: Request, res: Response) => {
-  let { password, name, isMajor, isPhoneConfirmed } = req.body;
-
   if (
     !verifyMandatoryParams(
-      ["phone", "password", "name", "isMajor", "isPhoneConfirmed"],
+      ["password", "name", "isMajor", "confirmationCode"],
       req.body
     )
   ) {
     return res.status(400).send("wrong params sent to input");
   }
+  let { password, name, isMajor, confirmationCode } = req.body;
 
+  // In the token for signup is the phone
   const phone = req.body.tokenData;
   password = await bcrypt.hash(password, 10);
-  const user = new User({ phone, password, name, isMajor, isPhoneConfirmed });
 
+  const user = await User.findOne({ phone });
+  if (!user) return res.status(422).send("No user found");
+  if (!user.confirmationCode) return res.status(422).send("Already signed up");
+  if (confirmationCode !== user.confirmationCode)
+    return res.status(422).send("Confirmation code doesn't match");
   try {
-    await user.save();
-  } catch {
-    return res.status(500).send("Cannot save the user");
+    await user.updateOne({
+      confirmationCode: null,
+      isMajor,
+      isPhoneConfirmed: true,
+      name,
+      password
+    });
+    const token = await createToken(user.id);
+    return res.status(200).json({ token });
+  } catch (err) {
+    return res.status(500).send(err);
   }
-  return res.status(200).json({ token: req.body.token });
 };
 
 /**
@@ -85,14 +93,14 @@ const loginController = async (req: Request, res: Response) => {
     return res.status(400).send("missing mandatory parameter");
   }
 
-  const dbUser = await User.findOne({ phone });
+  const user = await User.findOne({ phone });
 
-  if (!dbUser) return res.status(422).send("No user have this phone");
+  if (!user) return res.status(422).send("No user have this phone");
 
-  if (await bcrypt.compare(password, dbUser.password)) {
+  if (await bcrypt.compare(password, user.password)) {
     try {
-      //const token = await createToken(phone);
-      return res.status(200).json({ token: "test" });
+      const token = await createToken(user.id);
+      return res.status(200).json({ token });
     } catch (err) {
       return res.status(500).send(err);
     }

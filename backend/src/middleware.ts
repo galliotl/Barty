@@ -4,7 +4,9 @@ import { Request, Response, NextFunction } from "express";
 // local libs
 import User from "./db/models/user";
 import Bar from "./db/models/bar";
+import {verifyRegexPhone, verifyRegexMail} from "./utils/regex";
 import { getTokenData } from "./utils/tokenHelpers";
+import bar from "./db/models/bar";
 
 /**
  * This middleware function verifies the presence of a
@@ -57,7 +59,7 @@ export const verifyAuth = async (
   // Set here by previous middleware
   const tokenData = req.body.tokenData;
   try {
-    const user = await User.findOne({ phone: tokenData });
+    const user = await User.findById(tokenData);
     if (!user) return res.status(403).send("user doesn't exist");
     else {
       req.body.user = user;
@@ -92,6 +94,33 @@ export const verifyAuthBar = async (
 };
 
 /**
+ * This middleware verify if the different paramerters required for a bar creation coorespond to their regex
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+export const verifyBarParameters = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const bar = req.body;
+    if (!bar) return res.status(403).send("bar doesn't exist");
+    const phone = bar.phone;
+    if(!verifyRegexPhone(phone)) return res.status(403).send("this is not a phone number");
+    const mail = bar.mail;
+    if(!verifyRegexMail(mail)) return res.status(403).send("this is not a mail address");
+    else {
+      req.body.bar = bar;
+      return next();
+    }
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+};
+
+/**
  * This function verifies the presence of some mandatory
  * parameters in the request and returns an error otherwise
  * @param mandatoryParams  -> a list of the mandatory params
@@ -108,3 +137,4 @@ export const verifyMandatoryParams = (
   }
   return true;
 };
+
