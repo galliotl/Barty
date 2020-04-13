@@ -101,7 +101,7 @@ const getBarController = async (
 ) => {
   const { id } = req.query;
   if (!verifyMandatoryParams(["id"], req.query)) {
-    return res.status(422).send("missing mandatory params");
+    return res.status(403).send("missing mandatory params");
   }
   try {
     const bar = await Bar.findById(id);
