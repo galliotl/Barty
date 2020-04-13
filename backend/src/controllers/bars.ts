@@ -58,7 +58,7 @@ const createBarController = async (
     arrayOfBeverages.forEach((e) => {
       if (!verifyBeverageCategory(e.category)) {
         shouldContinue = false;
-        return res.status(400).send("this beverage category doesn't exist");
+        return res.status(403).send("this beverage category doesn't exist");
       }
     });
   }
