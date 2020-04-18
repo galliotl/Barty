@@ -1,0 +1,43 @@
+
+/* smartphone and pc navbar */
+/* smartphone */
+@media screen and (max-width: 800px) {
+    #navbar_pc{
+        visibility: hidden;
+        height: 0;
+    }
+    .imgsmart{
+        width: 100%;
+    }
+    .imgpc{
+        visibility: hidden;
+        height: 0;
+    }
+}
+/* pc */
+@media screen and (min-width: 800px) {
+    #navbar_smartphone{
+        visibility: hidden;
+        height: 0;
+    }
+    .imgpc{
+        width: 100%;
+        height: 100vh;
+    }
+    .imgsmart{
+        visibility: hidden;
+        height: 0;
+    }
+}
+
+.backgroung_image{
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -2;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+}
