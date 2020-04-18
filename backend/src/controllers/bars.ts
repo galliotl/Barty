@@ -121,7 +121,7 @@ const deleteBarController = async (
 ) => {
   const { id } = req.body;
   if (!verifyMandatoryParams(["id"], req.body)) {
-    return res.status(422).send("missing mandatory params");
+    return res.status(403).send("missing mandatory params");
   }
   try {
     await Bar.findByIdAndDelete(id);
@@ -150,7 +150,7 @@ const updateBarController = async (
       req.body
     )
   ) {
-    return res.status(400).send("wrong params entered");
+    return res.status(403).send("wrong params entered");
   }
   try {
     //Get the fields and the id

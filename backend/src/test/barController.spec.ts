@@ -18,8 +18,9 @@ const fakeName = "Nom du Bar";
 const fakePassword = "password";
 const wrongPassword = "pass";
 const hashedPassword = bcryptjs.hashSync(fakePassword, 10);
-const fakePhotoUrl = "http://lorenzomevellec.fr/image/fond.jpg";
+const fakePhotoUrl = "https://lorenzomevellec.fr/image/fond.jpg";
 const fakeNumber = "0666666666";
+const fakeFields = ["photoUrl:" + fakePhotoUrl];
 
 //Test bar creation
 describe("Test bar creation", () => {
@@ -145,9 +146,9 @@ describe("Get bar", () => {
   it("Should return 200 when everything is ok", async () => {
     // builds a fake request
     const req = mockRequest({
-        query:{
-            id:fakeId
-        },
+      query: {
+        id: fakeId,
+      },
     });
     const res = mockResponse();
     await bar.getBarController(req, res);
@@ -157,12 +158,87 @@ describe("Get bar", () => {
   it("Should return 403 when the id is missing", async () => {
     // builds a fake request
     const req = mockRequest({
-        query:{
-            //id:fakeId //here obviously id is missing
-        },
+      query: {
+        //id:fakeId //here obviously id is missing
+      },
     });
     const res = mockResponse();
     await bar.getBarController(req, res);
+    sinon.assert.calledWith(res.status, 403);
+  });
+});
+
+//Test updating bar
+describe("Update bar", () => {
+  before(() => {
+    // This pretends we do a call to the db and only returns required fields
+    sinon.replace(Bar, "findOne", sinon.fake.returns(fakeId));
+    sinon.replace(Bar.prototype, "save", sinon.fake());
+  });
+  after(() => {
+    // resets all stubs
+    sinon.restore();
+    sinon.reset();
+  });
+
+  /*it("Should return 200 when everything is ok", async () => {
+    // builds a fake request
+    const req = mockRequest({
+      body: {
+        id: fakeId,
+        fields: ["photoUrl"],
+        photoUrl: fakePhotoUrl,
+      },
+    });
+    const res = mockResponse();
+    await bar.updateBarController(req, res);
+    sinon.assert.calledWith(res.status, 200);
+  });*/
+
+  it("Should return 403 when id or fields is missing", async () => {
+    const req = mockRequest({
+      body: {
+        //id: fakeId,
+        fields: ["photoUrl"],
+        photoUrl: fakePhotoUrl,
+      },
+    });
+    const res = mockResponse();
+    await bar.updateBarController(req, res);
+    sinon.assert.calledWith(res.status, 403);
+  });
+});
+
+//Test deleting bar
+describe("Delete bar", () => {
+  before(() => {
+    sinon.replace(Bar, "findByIdAndDelete", sinon.fake.returns(true));
+    sinon.replace(Bar.prototype, "save", sinon.fake());
+  });
+  after(() => {
+    sinon.restore();
+    sinon.reset();
+  });
+
+  it("Should return 200 when everything is ok", async () => {
+    const req = mockRequest({
+      body: {
+        id: fakeId,
+      },
+    });
+    const res = mockResponse();
+    await bar.deleteBarController(req, res);
+    sinon.assert.calledWith(res.status, 200);
+  });
+
+  it("Should return 403 when the id is missing", async () => {
+    const req = mockRequest({
+      body: {
+        //id:fakeId //here obviously id is missing
+      },
+    });
+    const res = mockResponse();
+    await bar.deleteBarController(req, res);
     sinon.assert.calledWith(res.status, 403);
   });
 });
