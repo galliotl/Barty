@@ -22,7 +22,7 @@ import { paginationLimit } from "../config";
  * or a total fetch if not
  */
 const getUserController = async (req: Request, res: Response) => {
-  if (req.params.userId) return getSingleUser(req, res);
+  if (req.params.userId || req.query.id) return getSingleUser(req, res);
   else if (req.body.ids || req.query.ids) return getUsersFromIds(req, res);
   else if (req.query.offset) return getAllUsersPaginated(req, res);
   else return getAllUsers(req, res);
@@ -33,8 +33,9 @@ const getUserController = async (req: Request, res: Response) => {
  * /users/:userId ex: users/2393020392030
  */
 export const getSingleUser = async (req: Request, res: Response) => {
+  const id = req.params.userId ? req.params.userId : req.body.id;
   try {
-    const user = await User.findById(req.params.userId).exec();
+    const user = await User.findById(id).exec();
     if (!user) return res.status(422).send("user doesn't exist");
     return res.status(200).json({ user });
   } catch (err) {
@@ -95,7 +96,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
  * Controls the deletion process
  */
 const deleteUserController = async (req: Request, res: Response) => {
-  if (req.params.userId) return deleteSingleUser(req, res);
+  if (req.params.userId || req.body.id) return deleteSingleUser(req, res);
   else if (req.query.ids || req.body.ids) return deleteMultipleUsers(req, res);
   else return res.status(400).send("missing ids");
 };
@@ -105,8 +106,9 @@ const deleteUserController = async (req: Request, res: Response) => {
  * /users/:userId ex: users/2393020392030
  */
 export const deleteSingleUser = async (req: Request, res: Response) => {
+  const id = req.params.userId ? req.params.userId : req.body.id;
   try {
-    await User.findByIdAndRemove(req.params.userId);
+    await User.findByIdAndRemove(id);
     return res.send(200).send("deleted");
   } catch (err) {
     return res.status(500).send(err);
@@ -133,8 +135,11 @@ export const deleteMultipleUsers = async (req: Request, res: Response) => {
  * Controls the update process
  */
 const updateUserController = async (req: Request, res: Response) => {
-  if (req.params.userId) return updateSingleUser(req, res);
-  else if (req.query.ids || req.body.ids) return updateMultipleUser(req, res);
+  // Verify that there is something to modify
+  if (!req.body.data) return res.status(400).send("No data to modify");
+
+  if (req.params.userId || req.body.id) return updateSingleUser(req, res);
+  else if (req.body.ids) return updateMultipleUsers(req, res);
   else return res.status(400).send("missing ids");
 };
 
@@ -145,8 +150,9 @@ const updateUserController = async (req: Request, res: Response) => {
  * ! always test it is
  */
 export const updateSingleUser = async (req: Request, res: Response) => {
+  const id = req.params.userId ? req.params.userId : req.body.id;
   try {
-    const user = await User.findByIdAndUpdate(req.params.userId, req.body.data);
+    const user = await User.findByIdAndUpdate(id, req.body.data);
     return res.status(200).json({ user });
   } catch (err) {
     return res.status(500).send(err);
@@ -159,13 +165,10 @@ export const updateSingleUser = async (req: Request, res: Response) => {
  * ! this relies on strict mode being enabled in mangoose
  * ! always test it is
  */
-export const updateMultipleUser = async (req: Request, res: Response) => {
-  const ids = req.query.ids ? req.query.ids.split(",") : req.body.ids;
+export const updateMultipleUsers = async (req: Request, res: Response) => {
+  const { data, ids } = req.body;
   try {
-    const response = await User.updateMany(
-      { _id: { $in: ids } },
-      req.body.data
-    );
+    const response = await User.updateMany({ _id: { $in: ids } }, data);
     return res.status(200).send(response);
   } catch (err) {
     return res.status(500).send(err);
