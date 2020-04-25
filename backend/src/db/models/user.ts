@@ -1,16 +1,19 @@
 import * as mongoose from "mongoose";
 
 export interface User extends mongoose.Document {
+  confirmationCode: string;
+  isMajor: boolean;
+  isPhoneConfirmed: boolean;
   name: string;
   password: string;
   phone: string;
-  isMajor: boolean;
 }
 
 const userSchema = new mongoose.Schema({
   phone: { type: String, unique: true, required: true, index: true },
   name: String,
   password: String,
+  confirmationCode: String,
   isMajor: {
     type: Boolean,
     validate: {
