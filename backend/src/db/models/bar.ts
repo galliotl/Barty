@@ -30,7 +30,7 @@ const barSchema = new mongoose.Schema({
   closingHour: {type: time, required:true},
   beverages: {type: Array, required:false, default:[]},
   events: [Object],
-},{timestamps: { createdAt: 'createdDate',updatedAt: 'updatedDate' }});
+},{timestamps: { createdAt: 'created_at',updatedAt: 'updated_at' }});
 
 
 export default mongoose.model<Bar>("Bar", barSchema);

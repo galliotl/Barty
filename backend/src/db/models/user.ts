@@ -28,6 +28,6 @@ const userSchema = new mongoose.Schema({
       message: () => "User has to be major to signup to the website"
     }
   }
-},{timestamps: { createdAt: 'createdDate',updatedAt: 'updatedDate' }});
+},{timestamps: { createdAt: 'created_at',updatedAt: 'updated_at' }});
 
 export default mongoose.model<User>("User", userSchema);

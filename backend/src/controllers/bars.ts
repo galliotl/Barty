@@ -190,7 +190,7 @@ const updateBarController = async (
       bar.beverages=req.body.beverages;
     }
     //update the updated_at
-    bar.updated_at=new Date();
+    //bar.updated_at=new Date(); //je pense qu'on peut pas y accéder comme ça
     //save
     bar.save();
     return res.status(200).json({ bar });
