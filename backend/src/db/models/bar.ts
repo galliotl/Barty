@@ -16,8 +16,6 @@ export interface Bar extends mongoose.Document {
   closingHour: time.Time;
   beverages: [beverage.Beverage];
   events: [object];
-  created_at: Date;
-  updated_at: Date;
 }
 
 const barSchema = new mongoose.Schema({
@@ -32,8 +30,7 @@ const barSchema = new mongoose.Schema({
   closingHour: {type: time, required:true},
   beverages: {type: Array, required:false, default:[]},
   events: [Object],
-  created_at: {type: Date, required: true, default: Date.now},
-  updated_at: {type: Date, required: true, default: Date.now}
-});
+},{timestamps: { createdAt: 'created_at',updatedAt: 'updated_at' }});
+
 
 export default mongoose.model<Bar>("Bar", barSchema);
