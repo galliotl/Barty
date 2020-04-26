@@ -5,47 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barty</title>
     <link rel="icon" type="image/png" href=""/><!--TODO-->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
 </head>
 
 
-<body style="min-height: 100vh; max-width: 100%; background-color: black">
-<!--Vue lorsqu'on arrive sur la page -->
+<body style="max-width: 100%; background-color: black">
 <div style="height: 100vh">
     <!-- Navbar -->
     <div style="background-color: black; height: 100vh; width: 100%; opacity: 0.5; z-index: -1;"></div>
     <?php
-    include 'tools/navbar_index.php';
+    include '../tools/navbar_on_image.php';
     ?>
     <!-- Background image -->
-    <img class="backgroung_image imgpc" src="images/backgrounds/computer/index2.png">
-    <img class="backgroung_image imgsmart" src="images/backgrounds/smartphone/index2.png">
+    <img class="backgroung_image imgpc" src="../images/backgrounds/computer/index2.png">
+    <img class="backgroung_image imgsmart" src="../images/backgrounds/smartphone/index2.png">
 
 
     <!-- text on image -->
     <div style="height: 0; position: absolute; top: 39vh" class="container-fluid">
         <div class="row">
             <div style=" padding-top: 10px; padding-bottom: 10px;" class="col-12 text-center">
-                <h1 style="color: white;"><span style="font-size: 50px;"><b>Trouve le bar qui te correspond.</b></span>
+                <h1 style="color: white;"><span style="font-size: 50px;"><b>Rejoignez nous !</b></span>
                 </h1>
             </div>
         </div>
         <div class="get_the_app_image_banner">
             <div class="row">
-                <div class="col-lg-2 col-6 text-center ">
-                    <img class="get_the_app_image" src="images/apple_get_the_app.png">
-                </div>
-                <div class="col-lg-2 col-6 text-center get_the_app_image">
-                    <img class="get_the_app_image" src="images/google_get_the_app.png">
+                <div class="col-lg-3 col-8 text-center">
+                    <button style="width: 50%; height: 10vh" type="button" class="btn btn-outline-light">Nous rejoindre</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 <div style="background-color: black;" class="container-fluid">
     <div class="pc_margin_100 smartphone_margin_50"> </div>
@@ -67,14 +62,14 @@
             <div class="smartphone_margin_50"></div>
         </div>
         <div class=" col-lg-4 offset-lg-2 text-center">
-            <img style="max-width: 100%" src="images/pages/index/beer.jpg">
+            <img style="max-width: 100%" src="../images/pages/index/beer.jpg">
         </div>
     </div>
     <!-- bouton -->
     <div class="row get_the_app_wave">
         <div class="text-center col-lg-2 offset-lg-5 col-10 offset-1">
             <div style="display: block">
-                <a style="border-radius: 10px" class="wave_link " href="#"><span>get the app</span>
+                <a style="border-radius: 10px" class="wave_link " href="#"><span>Rejoignez nous</span>
                     <div class="wave"></div>
                 </a>
             </div>
@@ -83,7 +78,7 @@
     <!-- second bandeau -->
     <div style="margin-top: 10px;" class="row">
         <div class="col-lg-4 offset-lg-1 text-center d-none d-lg-block">
-            <img style="max-width: 100%" src="images/pages/index/beer.jpg">
+            <img style="max-width: 100%" src="../images/pages/index/beer.jpg">
         </div>
         <div class=" col-lg-4 offset-lg-2">
             <div class="pc_margin_100"></div>
@@ -106,13 +101,14 @@
         </div>
         <div class="col-lg-4 offset-lg-1 text-center d-block d-lg-none">
             <div class="smartphone_margin_50"></div>
-            <img style="max-width: 100%" src="images/pages/index/beer.jpg">
+            <img style="max-width: 100%" src="../images/pages/index/beer.jpg">
         </div>
     </div>
 </div>
+
 <!--FOOTER-->
 <?php
-include 'tools/footer_index.php';
+include '../tools/footer.php';
 ?>
 </body>
 <!-- Boostrap JS -->
