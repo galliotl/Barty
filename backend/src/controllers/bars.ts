@@ -189,8 +189,6 @@ const updateBarController = async (
     if(fields.some(e=>e=="beverages")){
       bar.beverages=req.body.beverages;
     }
-    //update the updated_at
-    bar.updated_at=new Date();
     //save
     bar.save();
     return res.status(200).json({ bar });
