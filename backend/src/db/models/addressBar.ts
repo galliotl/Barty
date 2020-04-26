@@ -7,11 +7,9 @@ export interface AddressBar extends mongoose.Document {
   country: string;
 }
 
-const addressBarSchema = new mongoose.Schema({
+export const addressBarSchema = new mongoose.Schema({
   streetAddress: String,
   city: String,
   postalCode: Number,
   country: String,
 });
-
-export default mongoose.model<AddressBar>('AddressBar', addressBarSchema);
