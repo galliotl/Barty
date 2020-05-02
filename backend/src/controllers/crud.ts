@@ -7,7 +7,7 @@ import config from '../config';
 
 /**
  * This class creates handlers for CRUD actions given a model
- * 
+ *
  * Args:
  *  - model: (mongoose model) - model to affect
  *  - name: (string) - name of the model
@@ -33,7 +33,7 @@ export default class CRUDController {
     if (data instanceof Array) return await this.createMultiple(req, res);
     else if (data instanceof Map) return await this.createSingle(req, res);
     else return res.status(500).send(`Unprocessable type ${typeof data}`);
-  }
+  };
 
   /**
    * Dispatches the request to sub handlers given
@@ -42,12 +42,12 @@ export default class CRUDController {
    * @param res - express response
    */
   getController = async (req: Request, res: Response) => {
-    if (req.params.id) return await this.getSingle(req, res);
+    if (req.params.id || req.query.id) return await this.getSingle(req, res);
     else if (req.body.ids || req.query.ids)
       return await this.getByIds(req, res);
     else if (req.query.offset) return await this.getAllPaginated(req, res);
     else return await this.getAll(req, res);
-  }
+  };
 
   /**
    * Dispatches the request to sub handlers given
@@ -56,11 +56,10 @@ export default class CRUDController {
    * @param res - express response
    */
   putController = async (req: Request, res: Response) => {
-    if (req.params.userId) return await this.updateSingle(req, res);
-    else if (req.query.ids || req.body.ids)
-      return await this.updateMultiple(req, res);
+    if (req.params.id || req.body.id) return await this.updateSingle(req, res);
+    else if (req.body.ids) return await this.updateMultiple(req, res);
     else return res.status(400).send('missing ids');
-  }
+  };
 
   /**
    * Dispatches the request to sub handlers given
@@ -69,11 +68,11 @@ export default class CRUDController {
    * @param res - express response
    */
   deleteController = async (req: Request, res: Response) => {
-    if (req.params.userId) return await this.deleteSingle(req, res);
+    if (req.params.id || req.query.id) return await this.deleteSingle(req, res);
     else if (req.query.ids || req.body.ids)
       return await this.deleteMultiple(req, res);
     else return res.status(400).send('missing ids');
-  }
+  };
 
   /**
    * Fetches a single element
@@ -87,7 +86,7 @@ export default class CRUDController {
     } catch (err) {
       return res.status(500).send(err);
     }
-  }
+  };
 
   /**
    * Fetches a list of items from their ids.
@@ -100,7 +99,7 @@ export default class CRUDController {
     } catch (err) {
       return res.status(500).send(err);
     }
-  }
+  };
 
   /**
    * Fetches all the items using pagination
@@ -116,7 +115,7 @@ export default class CRUDController {
     } catch (err) {
       return res.status(500).send(err);
     }
-  }
+  };
 
   /**
    * Fetches all the items.
@@ -128,7 +127,7 @@ export default class CRUDController {
     } catch (err) {
       return res.status(500).send(err);
     }
-  }
+  };
 
   /**
    * Deletes a single item from its id
@@ -141,7 +140,7 @@ export default class CRUDController {
     } catch (err) {
       return res.status(500).send(err);
     }
-  }
+  };
 
   /**
    * Deletes multiple items given an id list
@@ -154,20 +153,20 @@ export default class CRUDController {
     } catch (err) {
       return res.status(500).send(err);
     }
-  }
+  };
 
   /**
    * Updates a single item
    */
   updateSingle = async (req: Request, res: Response) => {
-    const id = req.params.id ? req.params.id : req.query.id;
+    const id = req.params.id ? req.params.id : req.body.id;
     try {
       const item = await this.model.findByIdAndUpdate(id, req.body.data);
       return res.status(200).json({ item });
     } catch (err) {
       return res.status(500).send(err);
     }
-  }
+  };
 
   /**
    * Updates multiple elements given their ids
@@ -183,7 +182,7 @@ export default class CRUDController {
     } catch (err) {
       return res.status(500).send(err);
     }
-  }
+  };
 
   /**
    * Creates a single item
@@ -196,7 +195,7 @@ export default class CRUDController {
     } catch (err) {
       return res.status(500).send(err);
     }
-  }
+  };
 
   /**
    * Creates multiple items
@@ -208,5 +207,5 @@ export default class CRUDController {
     } catch (err) {
       return res.status(500).send(err);
     }
-  }
+  };
 }
