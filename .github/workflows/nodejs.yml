@@ -21,6 +21,8 @@ jobs:
           node-version: 10.x
       - run: npm i
         working-directory: ./backend 
+      - run: npm run lint --if-present
+        working-directory: ./backend 
       - run: npm run build --if-present
         working-directory: ./backend 
       - run: npm test --if-present
