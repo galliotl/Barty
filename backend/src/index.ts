@@ -5,13 +5,15 @@ import * as mongoose from 'mongoose';
 // internal libraries
 import auth from './controllers/auth';
 import bars from './controllers/bars';
-import users from './controllers/users';
+import CRUDController from './controllers/crud';
 import {
   verifyToken,
   verifyAuth,
   verifyAuthBar,
   verifyBarParameters,
 } from './middleware';
+import UserModel from './db/models/user';
+import EventModel from './db/models/event';
 
 const uri = 'mongodb://db:27017/barty';
 mongoose.connect(uri, {
@@ -34,11 +36,23 @@ app.post('/users/signup/phone', auth.signupPhoneController);
 /**
  * Users routes
  */
+const userController = new CRUDController(UserModel, 'user');
 app
-  .route('/users/:userId?')
-  .delete(verifyToken, verifyAuthBar, users.deleteUserController)
-  .get(verifyToken, verifyAuthBar, users.getUserController)
-  .put(verifyToken, verifyAuthBar, users.updateUserController);
+  .route('/users/:id?')
+  .delete(verifyToken, verifyAuth, userController.deleteController)
+  .get(verifyToken, verifyAuth, userController.getController)
+  .put(verifyToken, verifyAuth, userController.putController);
+
+/**
+ * Events routes
+ */
+const eventController = new CRUDController(EventModel, 'event');
+app
+  .route('/events/:id?')
+  .post(verifyToken, verifyAuth, eventController.postController)
+  .delete(verifyToken, verifyAuth, eventController.deleteController)
+  .get(verifyToken, verifyAuth, eventController.getController)
+  .put(verifyToken, verifyAuth, eventController.putController);
 
 /**
  * Bar routes
