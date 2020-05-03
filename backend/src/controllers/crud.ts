@@ -30,9 +30,10 @@ export default class CRUDController {
   postController = async (req: Request, res: Response) => {
     const data = req.body.data;
     if (!data) return res.status(400).send('missing data');
-    if (data instanceof Array) return await this.createMultiple(req, res);
-    else if (data instanceof Map) return await this.createSingle(req, res);
-    else return res.status(500).send(`Unprocessable type ${typeof data}`);
+    if (Array.isArray(data)) return await this.createMultiple(req, res);
+    if (data.constructor === {}.constructor)
+      return await this.createSingle(req, res);
+    else return res.status(422).send(`Unprocessable type ${typeof data}`);
   };
 
   /**
@@ -43,8 +44,7 @@ export default class CRUDController {
    */
   getController = async (req: Request, res: Response) => {
     if (req.params.id || req.query.id) return await this.getSingle(req, res);
-    else if (req.body.ids || req.query.ids)
-      return await this.getByIds(req, res);
+    else if (req.query.ids) return await this.getByIds(req, res);
     else if (req.query.offset) return await this.getAllPaginated(req, res);
     else return await this.getAll(req, res);
   };
@@ -56,6 +56,7 @@ export default class CRUDController {
    * @param res - express response
    */
   putController = async (req: Request, res: Response) => {
+    if (!req.body.data) return res.status(400).send("missing data")
     if (req.params.id || req.body.id) return await this.updateSingle(req, res);
     else if (req.body.ids) return await this.updateMultiple(req, res);
     else return res.status(400).send('missing ids');
@@ -92,7 +93,7 @@ export default class CRUDController {
    * Fetches a list of items from their ids.
    */
   getByIds = async (req: Request, res: Response) => {
-    const ids = req.query.ids ? req.query.ids.split(',') : req.body.ids;
+    const ids = req.query.ids.split(',');
     try {
       const items = await this.model.find().where('_id').in(ids).exec();
       return res.status(200).json({ data: items });
