@@ -21,7 +21,6 @@ import { exists } from "fs";
 const confirmationMail = async (req : express.Request, res : express.Response,) => {
   let {mail} = req.body;
   if (!mail) {return res.status(400).send("mail isn't filled");}
-  //check if mail adress is already used
   const bar1 = await Bar.findOne({mail: req.body.mail});
   if (bar1) return res.status(400).send("The email address you have entered is already associated with another bar");
   try{

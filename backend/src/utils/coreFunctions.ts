@@ -1,5 +1,4 @@
 var nodemailer = require('nodemailer');
-import * as express from "express";
 
 /**
  * This function takes in a phone number and sends an sms
@@ -16,7 +15,7 @@ export const sendConfirmationCode = (phone: String): String => {
  * @param mail - mail adress
  */
 export const sendConfirmationMail = (mail: String): String => {
-    const aleatoire = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+    const aleatoire = Math.floor(Math.random() * 90000) + 10000;
     const code = aleatoire.toString();
     var transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: 'bartyy.test@gmail.com', pass: 'Barty10000' } });
     const mailOptions = { from: 'bartyy.test@gmail.com', to: mail, subject: 'Mail verification', text: 'Your code :  ' +  code};
