@@ -1,6 +1,7 @@
 // external libraries
 import * as express from "express";
 import * as bcrypt from "bcryptjs";
+var nodemailer = require('nodemailer');
 
 // local libraries
 import Bar from "../db/models/bar";
@@ -8,12 +9,34 @@ import { verifyMandatoryParams } from "../middleware";
 import { verifyBeverageCategory } from "../utils/barFunctions";
 import * as beverage from "../db/models/beverage";
 import { createToken } from "../utils/tokenHelpers";
+import { sendConfirmationMail } from "../utils/coreFunctions";
 import { exists } from "fs";
 
+
+/**
+ * Verifies the mail adress
+ * then call sendConfirmationMail
+ * then creates a bar 
+ */
+const confirmationMail = async (req : express.Request, res : express.Response,) => {
+  let {mail} = req.body;
+  if (!mail) {return res.status(400).send("mail isn't filled");}
+  //check if mail adress is already used
+  const bar1 = await Bar.findOne({mail: req.body.mail});
+  if (bar1) return res.status(400).send("The email address you have entered is already associated with another bar");
+  try{
+    const confirmationCode = sendConfirmationMail(mail);
+    const bar = new Bar({mail, confirmationCode});
+    await bar.save();
+    return res.status(200).json({"A verification email has been sent to ": mail});
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+};
 /**
  * Creates a bar
  * Verifies that the mandatory params are present in the request.body
- * then passes it to the mangoose object to create one.
+ * Verifies the confirmationCode then updated the bar with the right mail adress
  */
 const createBarController = async (
   req: express.Request,
@@ -30,6 +53,7 @@ const createBarController = async (
     openingHour,
     closingHour,
     beverages,
+    confirmationCode,
   } = req.body;
 
   if (
@@ -45,6 +69,7 @@ const createBarController = async (
         "openingHour",
         "closingHour",
         "beverages",
+        "confirmationCode",
       ],
       req.body
     )
@@ -63,11 +88,18 @@ const createBarController = async (
     });
   }
   if (shouldContinue) {
+    const bar = await Bar.findOne({ mail });
+    if (!bar) return res.status(422).send("No bar found");
+    if (!bar.confirmationCode) return res.status(422).send("Bar already created");
+    if (confirmationCode !== bar.confirmationCode)
+    return res.status(422).send("Confirmation code doesn't match");
+
     //hash the password
     password = await bcrypt.hash(password, 10);
     //create and save the object
     try {
-      const bar = new Bar({
+      await bar.updateOne({
+        confirmationCode: null,
         name,
         password,
         photoUrl,
@@ -80,7 +112,6 @@ const createBarController = async (
         beverages,
       });
       await bar.save();
-      //TODO implement a way to verify email
       //Create the token from the mail
       const token = await createToken(bar.mail);
       const id = bar.id;
@@ -198,6 +229,7 @@ const updateBarController = async (
 };
 
 export default {
+  confirmationMail,
   createBarController,
   deleteBarController,
   getBarController,
