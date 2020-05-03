@@ -15,21 +15,23 @@ export interface Bar extends mongoose.Document {
   closingHour: Time;
   beverages: [Beverage];
   events: [object];
+  confirmationCode: string;
 }
 
 const barSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    password: { type: String, required: true },
+    name: { type: String},
+    password: { type: String},
     photoUrl: String,
-    address: { type: addressBarSchema, unique: true, required: true },
+    address: { type: addressBarSchema, unique: true},
     phone: { type: String, unique: true },
     mail: { type: String, unique: true },
     description: String,
-    openingHour: { type: timeSchema, required: true },
-    closingHour: { type: timeSchema, required: true },
+    openingHour: { type: timeSchema,},
+    closingHour: { type: timeSchema,},
     beverages: { type: Array, required: false, default: [] },
     events: [Object],
+    confirmationCode: {type: String, default: "0"}
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } },
 );
