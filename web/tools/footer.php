@@ -24,10 +24,10 @@
         <div style="margin-top: 30px" class="col-lg-6 col-12 text-center">
             <div class="row">
                 <div class="col-lg-12 col-6">
-                    <img class="get_the_app_footer" src="../images/apple_get_the_app.png">
+                    <img  class="get_the_app_footer" src="../images/apple_get_the_app.png">
                 </div>
                 <div class="col-lg-12 col-6">
-                    <img class="get_the_app_footer" src="../images/google_get_the_app.png">
+                    <img  class="get_the_app_footer" src="../images/google_get_the_app.png">
                 </div>
             </div>
         </div>

@@ -21,8 +21,8 @@
     include 'tools/navbar_index.php';
     ?>
     <!-- Background image -->
-    <img class="backgroung_image imgpc" src="images/backgrounds/computer/index2.png">
-    <img class="backgroung_image imgsmart" src="images/backgrounds/smartphone/index2.png">
+    <img  class="backgroung_image imgpc" src="images/backgrounds/computer/index2.png">
+    <img  class="backgroung_image imgsmart" src="images/backgrounds/smartphone/index2.png">
 
 
     <!-- text on image -->
@@ -67,7 +67,7 @@
             <div class="smartphone_margin_50"></div>
         </div>
         <div class=" col-lg-4 offset-lg-2 text-center">
-            <img style="max-width: 100%" src="images/pages/index/beer.jpg">
+            <img  style="max-width: 100%" src="images/pages/index/beer.jpg">
         </div>
     </div>
     <!-- bouton -->
@@ -83,7 +83,7 @@
     <!-- second bandeau -->
     <div style="margin-top: 10px;" class="row">
         <div class="col-lg-4 offset-lg-1 text-center d-none d-lg-block">
-            <img style="max-width: 100%" src="images/pages/index/beer.jpg">
+            <img  style="max-width: 100%" src="images/pages/index/beer.jpg">
         </div>
         <div class=" col-lg-4 offset-lg-2">
             <div class="pc_margin_100"></div>
@@ -106,7 +106,7 @@
         </div>
         <div class="col-lg-4 offset-lg-1 text-center d-block d-lg-none">
             <div class="smartphone_margin_50"></div>
-            <img style="max-width: 100%" src="images/pages/index/beer.jpg">
+            <img  style="max-width: 100%" src="images/pages/index/beer.jpg">
         </div>
     </div>
 </div>
