@@ -82,7 +82,7 @@ const createBarController = async (
     arrayOfBeverages.forEach((e) => {
       if (!verifyBeverageCategory(e.category)) {
         shouldContinue = false;
-        return res.status(400).send("this beverage category doesn't exist");
+        return res.status(403).send("this beverage category doesn't exist");
       }
     });
   }
@@ -131,7 +131,7 @@ const getBarController = async (
 ) => {
   const { id } = req.query;
   if (!verifyMandatoryParams(["id"], req.query)) {
-    return res.status(422).send("missing mandatory params");
+    return res.status(403).send("missing mandatory params");
   }
   try {
     const bar = await Bar.findById(id);
@@ -151,7 +151,7 @@ const deleteBarController = async (
 ) => {
   const { id } = req.body;
   if (!verifyMandatoryParams(["id"], req.body)) {
-    return res.status(422).send("missing mandatory params");
+    return res.status(403).send("missing mandatory params");
   }
   try {
     await Bar.findByIdAndDelete(id);
@@ -180,7 +180,7 @@ const updateBarController = async (
       req.body
     )
   ) {
-    return res.status(400).send("wrong params entered");
+    return res.status(403).send("wrong params entered");
   }
   try {
     //Get the fields and the id
