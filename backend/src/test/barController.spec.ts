@@ -9,7 +9,7 @@ import * as core from "../utils/coreFunctions";
 import * as tokenHelpers from "../utils/tokenHelpers";
 import bar from "../controllers/bars";
 import Bar from "../db/models/bar";
-import addressBar from "../db/models/addressBar";
+import {AddressBar} from "../db/models/addressBar";
 import { doesNotMatch } from "assert";
 
 // Constants
