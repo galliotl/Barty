@@ -5,9 +5,7 @@ export interface Time extends mongoose.Document {
   minute:number;
 }
 
-const timeSchema = new mongoose.Schema({
+export const timeSchema = new mongoose.Schema({
     hour: Number,
     minute: Number
 });
-
-export default mongoose.model<Time>("Time", timeSchema);

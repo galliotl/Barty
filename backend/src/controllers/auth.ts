@@ -10,6 +10,17 @@ import User from "../db/models/user";
 import { verifyRegexPhone } from "../utils/regex";
 
 /**
+ * This file, to the difference of auth, contains
+ * the Creation, Read, Update, Deletion (CRUD) behaviour
+ * of the user making the request.
+ * 
+ * It is widely different from the users file. This file
+ * won't be used for admin purposes.
+ * 
+ * Its route, much like login don't need to be protected
+ */
+
+/**
  * This route is used for the app to send the phone number.
  * We have to:
  * - verify that this user isn't already signed up
@@ -22,7 +33,8 @@ const signupPhoneController = async (req: Request, res: Response) => {
   const phone = req.body.phone;
   if (!phone) return res.status(400).send("phone isn't filled");
   //Check if the phone does correspond to the pohone regex
-  if(!verifyRegexPhone(phone)) return res.status(400).send("this is not a phone number");
+  if (!verifyRegexPhone(phone))
+    return res.status(400).send("this is not a phone number");
 
   try {
     const confirmationCode = sendConfirmationCode(phone);
