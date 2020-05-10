@@ -41,6 +41,7 @@
                 <div class="col-lg-2 col-6 text-center get_the_app_image">
                     <img class="get_the_app_image" src="images/google_get_the_app.png">
                 </div>
+
             </div>
         </div>
     </div>
@@ -54,6 +55,7 @@
         <div class="col-lg-4 offset-lg-1">
             <div class="pc_margin_100"></div>
             <p style="color: white;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
                 Curabitur bibendum pretium
                 tortor. In facilisis erat tortor, vel posuere libero finibus vel. Vestibulum accumsan et mi sit amet
                 gravida. Aliquam nibh mauris, scelerisque at congue sit amet, consectetur pulvinar magna. Curabitur sed
@@ -117,6 +119,7 @@ include 'tools/footer_index.php';
 </body>
 <!-- Boostrap JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js "
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49 "
         crossorigin="anonymous "></script>

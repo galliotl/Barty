@@ -6,6 +6,7 @@
         height: 0;
     }
 
+<<<<<< test_bar_controller
     .get_the_app_image {
         height: 40px!important;
     }
@@ -21,6 +22,7 @@
 
     .imgsmart {
         min-height: 100vh;
+
         width: 100%;
     }
 
@@ -41,6 +43,7 @@
 
     .get_the_app_footer {
         height: 40px;
+
     }
 }
 
@@ -172,3 +175,4 @@ p, h1, h2, h3, h4, h5, h6, span, a {
         background-position-x: 118px;
     }
 }
+
