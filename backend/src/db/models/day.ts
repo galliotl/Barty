@@ -1,12 +1,12 @@
-import * as mongoose  from 'mongoose';
+import * as mongoose from 'mongoose';
 import { Time, timeSchema } from './time';
 
 export interface Day extends mongoose.Document {
-    openningHour: Time;
-    closingHour: Time;
+  openningHour: Time;
+  closingHour: Time;
 }
 
-export const daySchema = new mongoose.Schema ({
-    openingHour: {type: timeSchema},
-    closingHour: {type: timeSchema},
-})
+export const daySchema = new mongoose.Schema({
+  openingHour: { type: timeSchema },
+  closingHour: { type: timeSchema },
+});
