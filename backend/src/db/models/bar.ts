@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 import { AddressBar, addressBarSchema } from './addressBar';
 import { Time, timeSchema } from './time';
+import { Week, weekSchema } from './week';
 import { Beverage } from './beverage';
 
 export interface Bar extends mongoose.Document {
@@ -11,8 +12,7 @@ export interface Bar extends mongoose.Document {
   phone: string;
   mail: string;
   description: string;
-  openingHour: Time;
-  closingHour: Time;
+  schedule: Week;
   beverages: [Beverage];
   events: [object];
   confirmationCode: string;
@@ -27,8 +27,7 @@ const barSchema = new mongoose.Schema(
     phone: { type: String, unique: true },
     mail: { type: String, unique: true },
     description: String,
-    openingHour: { type: timeSchema,},
-    closingHour: { type: timeSchema,},
+    schedule: { type: weekSchema},
     beverages: { type: Array, required: false, default: [] },
     events: [Object],
     confirmationCode: {type: String, default: "0"}

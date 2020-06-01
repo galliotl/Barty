@@ -49,8 +49,7 @@ const createBarController = async (
     phone,
     mail,
     description,
-    openingHour,
-    closingHour,
+    schedule,
     beverages,
     confirmationCode,
   } = req.body;
@@ -65,8 +64,7 @@ const createBarController = async (
         "phone",
         "mail",
         "description",
-        "openingHour",
-        "closingHour",
+        "schedule",
         "beverages",
         "confirmationCode",
       ],
@@ -106,8 +104,7 @@ const createBarController = async (
         phone,
         mail,
         description,
-        openingHour,
-        closingHour,
+        schedule,
         beverages,
       });
       await bar.save();
@@ -210,11 +207,8 @@ const updateBarController = async (
     if(fields.some(e=>e=="description")){
       bar.description=req.body.description;
     }
-    if(fields.some(e=>e=="openingHour")){
-      bar.openingHour=req.body.openingHour;
-    }
-    if(fields.some(e=>e=="closingHour")){
-      bar.closingHour=req.body.closingHour;
+    if(fields.some(e=>e=="schedule")){
+      bar.schedule=req.body.schedule;
     }
     if(fields.some(e=>e=="beverages")){
       bar.beverages=req.body.beverages;
