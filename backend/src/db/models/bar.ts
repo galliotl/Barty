@@ -6,7 +6,7 @@ import { Beverage } from './beverage';
 export interface Bar extends mongoose.Document {
   name: string;
   password: string;
-  photoUrl: string;
+  photoUrl: [string];
   address: AddressBar;
   phone: string;
   mail: string;
@@ -21,7 +21,7 @@ const barSchema = new mongoose.Schema(
   {
     name: { type: String },
     password: { type: String },
-    photoUrl: { type: String },
+    photoUrl: [{ type: String }],
     address: { type: addressBarSchema, unique: true },
     phone: { type: String, unique: true },
     mail: { type: String, unique: true },

@@ -2,21 +2,21 @@ import * as mongoose from 'mongoose';
 import { Day, daySchema } from './day';
 
 export interface Week extends mongoose.Document {
-  lundi: Day;
-  mardi: Day;
-  mercredi: Day;
-  jeudi: Day;
-  vendredi: Day;
-  samedi: Day;
-  dimanche: Day;
+  monday: Day;
+  tuesday: Day;
+  wednesday: Day;
+  thursday: Day;
+  friday: Day;
+  saturday: Day;
+  sunday: Day;
 }
 
 export const weekSchema = new mongoose.Schema({
-  lundi: { type: daySchema },
-  mardi: { type: daySchema },
-  mercredi: { type: daySchema },
-  jeudi: { type: daySchema },
-  vendredi: { type: daySchema },
-  samedi: { type: daySchema },
-  dimanche: { type: daySchema },
+  monday: { type: daySchema },
+  tuesday: { type: daySchema },
+  wednesday: { type: daySchema },
+  thursday: { type: daySchema },
+  friday: { type: daySchema },
+  saturday: { type: daySchema },
+  sunday: { type: daySchema },
 });
