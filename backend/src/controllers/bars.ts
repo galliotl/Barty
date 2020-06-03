@@ -10,6 +10,7 @@ import { verifyBeverageCategory } from '../utils/barFunctions';
 import * as beverage from '../db/models/beverage';
 import { createToken } from '../utils/tokenHelpers';
 import { sendConfirmationMail } from '../utils/coreFunctions';
+import { verifyRegexMail } from '../utils/regex';
 import { exists } from 'fs';
 
 /**
@@ -24,6 +25,9 @@ const confirmationMail = async (
   let { mail } = req.body;
   if (!mail) {
     return res.status(400).send("mail isn't filled");
+  }
+  if (!verifyRegexMail(mail)) {
+    return res.status(400).send("this isn't a mail adress");
   }
   const bar1 = await Bar.findOne({ mail: req.body.mail });
   if (bar1)
@@ -225,10 +229,33 @@ const updateBarController = async (
   }
 };
 
+const loginBarController = async (
+  req: express.Request,
+  res: express.Response,
+) => {
+  let { mail, password } = req.body;
+  if (!verifyMandatoryParams(['mail', 'password'], req.body)) {
+    return res.status(400).send('wrong params entered');
+  }
+  try {
+    const bar = await Bar.findOne({ mail });
+    if (!bar) return res.status(422).send('No bar found');
+    //compare the password (secured)
+    const match = await bcrypt.compare(password, bar.password);
+    if (match) {
+      return res.status(200).json(bar.id); // renvoyer le token aussi mais je sais pas ou il est
+    }
+    return res.status(200).send('wrong password');
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+};
+
 export default {
   confirmationMail,
   createBarController,
   deleteBarController,
   getBarController,
   updateBarController,
+  loginBarController,
 };

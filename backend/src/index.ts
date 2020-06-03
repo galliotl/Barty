@@ -63,6 +63,7 @@ app
   .get(verifyToken, verifyAuthBar, bars.getBarController) // Check if works
   .post(verifyBarParameters, bars.createBarController)
   .put(verifyToken, verifyAuthBar, bars.updateBarController); // Check if works
-app.post('/confirmation', bars.confirmationMail); // verifier l'adresse mail
+app.post('/confirmation', bars.confirmationMail); // verify mail adress
+app.post('/bars/login', bars.loginBarController);
 
 app.listen(3000, () => console.log('running...'));

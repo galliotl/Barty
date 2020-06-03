@@ -21,7 +21,7 @@ const barSchema = new mongoose.Schema(
   {
     name: { type: String },
     password: { type: String },
-    photoUrl: [{ type: String }],
+    photoUrl: { type: Array, default: [] },
     address: { type: addressBarSchema, unique: true },
     phone: { type: String, unique: true },
     mail: { type: String, unique: true },
