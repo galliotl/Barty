@@ -1,33 +1,49 @@
 // external libraries
-import * as express from "express";
-import * as bcrypt from "bcryptjs";
+import * as express from 'express';
+import * as bcrypt from 'bcryptjs';
 var nodemailer = require('nodemailer');
 
 // local libraries
-import Bar from "../db/models/bar";
-import { verifyMandatoryParams } from "../middleware";
-import { verifyBeverageCategory } from "../utils/barFunctions";
-import * as beverage from "../db/models/beverage";
-import { createToken } from "../utils/tokenHelpers";
-import { sendConfirmationMail } from "../utils/coreFunctions";
-import { exists } from "fs";
-
+import Bar from '../db/models/bar';
+import { verifyMandatoryParams } from '../middleware';
+import { verifyBeverageCategory } from '../utils/barFunctions';
+import * as beverage from '../db/models/beverage';
+import { createToken, getTokenData } from '../utils/tokenHelpers';
+import { sendConfirmationMail } from '../utils/coreFunctions';
+import { verifyRegexMail } from '../utils/regex';
+import { exists } from 'fs';
 
 /**
  * Verifies the mail adress
  * then call sendConfirmationMail
- * then creates a bar 
+ * then creates a bar
  */
-const confirmationMail = async (req : express.Request, res : express.Response,) => {
-  let {mail} = req.body;
-  if (!mail) {return res.status(400).send("mail isn't filled");}
-  const bar1 = await Bar.findOne({mail: req.body.mail});
-  if (bar1) return res.status(400).send("The email address you have entered is already associated with another bar");
-  try{
+const confirmationMail = async (
+  req: express.Request,
+  res: express.Response,
+) => {
+  let { mail } = req.body;
+  if (!mail) {
+    return res.status(400).send("mail isn't filled");
+  }
+  if (!verifyRegexMail(mail)) {
+    return res.status(400).send("this isn't a mail adress");
+  }
+  const bar1 = await Bar.findOne({ mail: req.body.mail });
+  if (bar1)
+    return res
+      .status(400)
+      .send(
+        'The email address you have entered is already associated with another bar',
+      );
+  try {
     const confirmationCode = sendConfirmationMail(mail);
-    const bar = new Bar({mail, confirmationCode});
+    const token = await createToken(mail);
+    const bar = new Bar({ mail, confirmationCode });
     await bar.save();
-    return res.status(200).json({"A verification email has been sent to ": mail});
+    return res
+      .status(200)
+      .json({ 'A verification email has been sent to ': mail, token });
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -39,7 +55,7 @@ const confirmationMail = async (req : express.Request, res : express.Response,) 
  */
 const createBarController = async (
   req: express.Request,
-  res: express.Response
+  res: express.Response,
 ) => {
   let {
     name,
@@ -49,8 +65,7 @@ const createBarController = async (
     phone,
     mail,
     description,
-    openingHour,
-    closingHour,
+    schedule,
     beverages,
     confirmationCode,
   } = req.body;
@@ -58,22 +73,21 @@ const createBarController = async (
   if (
     !verifyMandatoryParams(
       [
-        "name",
-        "password",
-        "photoUrl",
-        "address",
-        "phone",
-        "mail",
-        "description",
-        "openingHour",
-        "closingHour",
-        "beverages",
-        "confirmationCode",
+        'name',
+        'password',
+        'photoUrl',
+        'address',
+        'phone',
+        'mail',
+        'description',
+        'schedule',
+        'beverages',
+        'confirmationCode',
       ],
-      req.body
+      req.body,
     )
   ) {
-    return res.status(400).send("wrong params entered");
+    return res.status(400).send('wrong params entered');
   }
   //check if the beverages categories does exist
   let shouldContinue = true;
@@ -88,10 +102,11 @@ const createBarController = async (
   }
   if (shouldContinue) {
     const bar = await Bar.findOne({ mail });
-    if (!bar) return res.status(422).send("No bar found");
-    if (!bar.confirmationCode) return res.status(422).send("Bar already created");
+    if (!bar) return res.status(422).send('No bar found');
+    if (!bar.confirmationCode)
+      return res.status(422).send('Bar already created');
     if (confirmationCode !== bar.confirmationCode)
-    return res.status(422).send("Confirmation code doesn't match");
+      return res.status(422).send("Confirmation code doesn't match");
 
     //hash the password
     password = await bcrypt.hash(password, 10);
@@ -106,8 +121,7 @@ const createBarController = async (
         phone,
         mail,
         description,
-        openingHour,
-        closingHour,
+        schedule,
         beverages,
       });
       await bar.save();
@@ -127,11 +141,11 @@ const createBarController = async (
  */
 const getBarController = async (
   req: express.Request,
-  res: express.Response
+  res: express.Response,
 ) => {
   const { id } = req.query;
-  if (!verifyMandatoryParams(["id"], req.query)) {
-    return res.status(403).send("missing mandatory params");
+  if (!verifyMandatoryParams(['id'], req.query)) {
+    return res.status(403).send('missing mandatory params');
   }
   try {
     const bar = await Bar.findById(id);
@@ -147,15 +161,15 @@ const getBarController = async (
  */
 const deleteBarController = async (
   req: express.Request,
-  res: express.Response
+  res: express.Response,
 ) => {
   const { id } = req.body;
-  if (!verifyMandatoryParams(["id"], req.body)) {
-    return res.status(403).send("missing mandatory params");
+  if (!verifyMandatoryParams(['id'], req.body)) {
+    return res.status(403).send('missing mandatory params');
   }
   try {
     await Bar.findByIdAndDelete(id);
-    return res.status(200).send("removed");
+    return res.status(200).send('removed');
   } catch {
     return res.status(500).send("couldn't remove");
   }
@@ -163,24 +177,16 @@ const deleteBarController = async (
 
 /**
  * Updates a bar
- * This function needs, in a json, the id, an array "fields" containing all the fields we 
+ * This function needs, in a json, the id, an array "fields" containing all the fields we
  * want to modify, and the concerned fields.
  * It returns the updated bar object.
  */
 const updateBarController = async (
   req: express.Request,
-  res: express.Response
+  res: express.Response,
 ) => {
-  if (
-    !verifyMandatoryParams(
-      [
-        "fields",
-        "id"
-      ],
-      req.body
-    )
-  ) {
-    return res.status(403).send("wrong params entered");
+  if (!verifyMandatoryParams(['fields', 'id'], req.body)) {
+    return res.status(403).send('wrong params entered');
   }
   try {
     //Get the fields and the id
@@ -189,35 +195,32 @@ const updateBarController = async (
     //Get the bar
     const bar = await Bar.findOne(id);
     //Perform the modifications
-    if(fields.some(e=>e=="name")){
-      bar.name=req.body.name;
+    if (fields.some((e) => e == 'name')) {
+      bar.name = req.body.name;
     }
-    if(fields.some(e=>e=="password")){
-      bar.password=await bcrypt.hash(req.body.password, 10);
+    if (fields.some((e) => e == 'password')) {
+      bar.password = await bcrypt.hash(req.body.password, 10);
     }
-    if(fields.some(e=>e=="photoUrl")){
-      bar.photoUrl=req.body.photoUrl;
+    if (fields.some((e) => e == 'photoUrl')) {
+      bar.photoUrl = req.body.photoUrl;
     }
-    if(fields.some(e=>e=="address")){
-      bar.address=req.body.address;
+    if (fields.some((e) => e == 'address')) {
+      bar.address = req.body.address;
     }
-    if(fields.some(e=>e=="phone")){
-      bar.phone=req.body.phone;
+    if (fields.some((e) => e == 'phone')) {
+      bar.phone = req.body.phone;
     }
-    if(fields.some(e=>e=="mail")){
-      bar.mail=req.body.mail;
+    if (fields.some((e) => e == 'mail')) {
+      bar.mail = req.body.mail;
     }
-    if(fields.some(e=>e=="description")){
-      bar.description=req.body.description;
+    if (fields.some((e) => e == 'description')) {
+      bar.description = req.body.description;
     }
-    if(fields.some(e=>e=="openingHour")){
-      bar.openingHour=req.body.openingHour;
+    if (fields.some((e) => e == 'schedule')) {
+      bar.schedule = req.body.schedule;
     }
-    if(fields.some(e=>e=="closingHour")){
-      bar.closingHour=req.body.closingHour;
-    }
-    if(fields.some(e=>e=="beverages")){
-      bar.beverages=req.body.beverages;
+    if (fields.some((e) => e == 'beverages')) {
+      bar.beverages = req.body.beverages;
     }
     //save
     bar.save();
@@ -227,10 +230,34 @@ const updateBarController = async (
   }
 };
 
+const loginBarController = async (
+  req: express.Request,
+  res: express.Response,
+) => {
+  let { mail, password } = req.body;
+  if (!verifyMandatoryParams(['mail', 'password'], req.body)) {
+    return res.status(400).send('missing mandatory parameter');
+  }
+  const bar = await Bar.findOne({ mail });
+  if (!bar) return res.status(422).send('No bar found');
+  if (await bcrypt.compare(password, bar.password)) {
+    try {
+      const token = await createToken(bar.id);
+      const tokendata = await getTokenData(token);
+      return res.status(200).json({ token, tokendata });
+    } catch (err) {
+      return res.status(500).send(err);
+    }
+  } else {
+    return res.status(422).send('wrong password');
+  }
+};
+
 export default {
   confirmationMail,
   createBarController,
   deleteBarController,
   getBarController,
   updateBarController,
+  loginBarController,
 };
