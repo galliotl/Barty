@@ -8,7 +8,7 @@ import Bar from '../db/models/bar';
 import { verifyMandatoryParams } from '../middleware';
 import { verifyBeverageCategory } from '../utils/barFunctions';
 import * as beverage from '../db/models/beverage';
-import { createToken } from '../utils/tokenHelpers';
+import { createToken, getTokenData } from '../utils/tokenHelpers';
 import { sendConfirmationMail } from '../utils/coreFunctions';
 import { verifyRegexMail } from '../utils/regex';
 import { exists } from 'fs';
@@ -38,11 +38,12 @@ const confirmationMail = async (
       );
   try {
     const confirmationCode = sendConfirmationMail(mail);
+    const token = await createToken(mail);
     const bar = new Bar({ mail, confirmationCode });
     await bar.save();
     return res
       .status(200)
-      .json({ 'A verification email has been sent to ': mail });
+      .json({ 'A verification email has been sent to ': mail, token });
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -235,19 +236,20 @@ const loginBarController = async (
 ) => {
   let { mail, password } = req.body;
   if (!verifyMandatoryParams(['mail', 'password'], req.body)) {
-    return res.status(400).send('wrong params entered');
+    return res.status(400).send('missing mandatory parameter');
   }
-  try {
-    const bar = await Bar.findOne({ mail });
-    if (!bar) return res.status(422).send('No bar found');
-    //compare the password (secured)
-    const match = await bcrypt.compare(password, bar.password);
-    if (match) {
-      return res.status(200).json(bar.id); // renvoyer le token aussi mais je sais pas ou il est
+  const bar = await Bar.findOne({ mail });
+  if (!bar) return res.status(422).send('No bar found');
+  if (await bcrypt.compare(password, bar.password)) {
+    try {
+      const token = await createToken(bar.id);
+      const tokendata = await getTokenData(token);
+      return res.status(200).json({ token, tokendata });
+    } catch (err) {
+      return res.status(500).send(err);
     }
-    return res.status(200).send('wrong password');
-  } catch (err) {
-    return res.status(500).send(err);
+  } else {
+    return res.status(422).send('wrong password');
   }
 };
 
