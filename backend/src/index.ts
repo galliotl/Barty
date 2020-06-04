@@ -61,7 +61,12 @@ app
   .route('/bars')
   .delete(verifyToken, verifyAuthBar, bars.deleteBarController)
   .get(verifyToken, verifyAuthBar, bars.getBarController) // Check if works
-  .post(verifyToken, verifyAuthBar, verifyBarParameters, bars.createBarController)
+  .post(
+    verifyToken,
+    verifyAuthBar,
+    verifyBarParameters,
+    bars.createBarController,
+  )
   .put(verifyToken, verifyAuthBar, bars.updateBarController); // Check if works
 app.post('/confirmation', bars.confirmationMail); // verify mail adress
 app.post('/bars/login', bars.loginBarController);
